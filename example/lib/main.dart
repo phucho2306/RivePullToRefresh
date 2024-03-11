@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         title: const Text('Plugin RiveAnimEx app'),
       ),
       body: RivePullToRefresh(
-        style: RivePullToRefreshStyle.header,
+        style: RivePullToRefreshStyle.floating,
         bump: (value) {
           _bump?.value = value;
         },
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
             onInit: _onRiveInit,
           ),
         ),
-        scrollController: _controller,
+        controller: _controller,
         onRefresh: () async {},
         child: ListView.builder(
           controller: _controller,
