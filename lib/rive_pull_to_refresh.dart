@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,8 @@ class RivePullToRefresh extends StatefulWidget {
       this.callBacknumber,
       this.style = RivePullToRefreshStyle.header,
       this.controller,
+      this.animTime = const Duration(milliseconds: 2000),
+      this.percentActiveBump = 30,
       Key? key})
       : super(key: key);
   final Widget child;
@@ -28,6 +31,11 @@ class RivePullToRefresh extends StatefulWidget {
   final Function(double)? callBacknumber;
   final Widget riveWidget;
   final Future<void> Function() onRefresh;
+  final Duration animTime;
+
+  ///[percentActiveBump] value range 0 to 100
+  final double percentActiveBump;
+
   @override
   State<RivePullToRefresh> createState() => _RivePullToRefreshState();
 }
@@ -42,19 +50,23 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   @override
   void initState() {
     super.initState();
+    if (widget.percentActiveBump > 100 || widget.percentActiveBump <= 0) {
+      log("percentActiveBump not correct. this value range from 0 to 100");
+      throw Error();
+    }
     _positionController = AnimationController(vsync: this);
     _positionFactor = _positionController.drive(_kDragSizeFactorLimitTween);
   }
 
   bool handleOnNotification(ScrollNotification notification) {
+    if (completer != null) {
+      return false;
+    }
     if (notification is ScrollStartNotification && notification.metrics.pixels == 0) {
       _shouldStart = true;
     }
     if (notification.metrics.pixels > 0 && _rivePullToRefreshState == null) {
       _shouldStart = false;
-    }
-    if (completer != null) {
-      return false;
     }
 
     if (_rivePullToRefreshState != null && _shouldStart == true) {
@@ -65,7 +77,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       }
       if (notification is OverscrollNotification) {
         _dragOffset = _dragOffset + notification.overscroll;
-        if (_positionController.value > 0.3) {
+        if (_positionController.value > (widget.percentActiveBump / 100)) {
           _rivePullToRefreshState = RivePullToRefreshState.accept;
         }
       }
@@ -91,7 +103,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     if (_rivePullToRefreshState == RivePullToRefreshState.accept) {
       await _positionController.animateTo(1 / _kDragSizeFactorLimit, duration: _kIndicatorScaleDuration);
       widget.bump?.call(true);
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(widget.animTime);
       _positionController.animateTo(0.0, duration: _kIndicatorScaleDuration);
       oldValue = null;
       _dragOffset = 0.0;
