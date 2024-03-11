@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 enum RivePullToRefreshState { accept, cancel }
 
@@ -25,9 +26,14 @@ class RivePullToRefresh extends StatefulWidget {
       Key? key})
       : super(key: key);
   final Widget child;
+
+  ///[controller] to set position to 0.0 when client cancel refresh
   final ScrollController? controller;
+
   final RivePullToRefreshStyle style;
   final Function(bool)? bump;
+
+  ///[callBacknumber] value return range 0-100 when client scrool
   final Function(double)? callBacknumber;
   final Widget riveWidget;
   final Future<void> Function() onRefresh;
@@ -51,11 +57,17 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   void initState() {
     super.initState();
     if (widget.percentActiveBump > 100 || widget.percentActiveBump <= 0) {
-      log("percentActiveBump not correct. this value range from 0 to 100");
+      log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
     }
     _positionController = AnimationController(vsync: this);
     _positionFactor = _positionController.drive(_kDragSizeFactorLimitTween);
+  }
+
+  @override
+  void dispose() {
+    _positionController.dispose();
+    super.dispose();
   }
 
   bool handleOnNotification(ScrollNotification notification) {
@@ -105,15 +117,15 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       widget.bump?.call(true);
       await Future.delayed(widget.animTime);
       _positionController.animateTo(0.0, duration: _kIndicatorScaleDuration);
+
       oldValue = null;
       _dragOffset = 0.0;
       _rivePullToRefreshState = null;
       widget.bump?.call(false);
       widget.onRefresh();
     } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _positionController.animateTo(0.0, duration: _kIndicatorScaleDuration);
-      });
+      _positionController.animateTo(0.0, duration: _kIndicatorScaleDuration);
+
       oldValue = null;
       _dragOffset = 0.0;
       _rivePullToRefreshState = null;

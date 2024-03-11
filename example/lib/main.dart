@@ -27,10 +27,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin RiveAnimEx app'),
+        title: const Text('Expample App'),
       ),
       body: RivePullToRefresh(
-        style: RivePullToRefreshStyle.floating,
+        style: RivePullToRefreshStyle.header,
         bump: (value) {
           _bump?.value = value;
         },
