@@ -30,6 +30,9 @@ class _MyAppState extends State<MyApp> {
         title: const Text('Expample App'),
       ),
       body: RivePullToRefresh(
+        kDragContainerExtentPercentage: 0.4,
+        kDragSizeFactorLimit: 1.5,
+        percentActiveBump: 50,
         style: RivePullToRefreshStyle.header,
         bump: (value) {
           _bump?.value = value;

@@ -2,14 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 enum RivePullToRefreshState { accept, cancel }
 
 enum RivePullToRefreshStyle { header, floating }
 
-const double _kDragSizeFactorLimit = 1.5;
-const double _kDragContainerExtentPercentage = 0.25;
 const Duration _kIndicatorScaleDuration = Duration(milliseconds: 200);
 
 class RivePullToRefresh extends StatefulWidget {
@@ -23,9 +20,19 @@ class RivePullToRefresh extends StatefulWidget {
       this.controller,
       this.animTime = const Duration(milliseconds: 2000),
       this.percentActiveBump = 30,
+      this.kDragSizeFactorLimit = 1.5,
+      this.kDragContainerExtentPercentage = 0.25,
       Key? key})
       : super(key: key);
   final Widget child;
+
+  // [kDragSizeFactorLimit]How much the scroll's drag gesture can overshoot the RefreshIndicator's
+  // displacement; max displacement = _kDragSizeFactorLimit * displacement.
+  final double kDragSizeFactorLimit;
+
+  ///[kDragContainerExtentPercentage] The over-scroll distance that moves the indicator to its maximum
+  /// displacement, as a percentage of the scrollable's container extent.
+  final double kDragContainerExtentPercentage;
 
   ///[controller] to set position to 0.0 when client cancel refresh
   final ScrollController? controller;
@@ -50,12 +57,13 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   RivePullToRefreshState? _rivePullToRefreshState;
   late AnimationController _positionController;
   late Animation<double> _positionFactor;
-  static final Animatable<double> _kDragSizeFactorLimitTween = Tween<double>(begin: 0.0, end: _kDragSizeFactorLimit);
+  late Animatable<double> _kDragSizeFactorLimitTween;
   double _dragOffset = 0.0;
   Completer? completer;
   @override
   void initState() {
     super.initState();
+    _kDragSizeFactorLimitTween = Tween<double>(begin: 0.0, end: widget.kDragSizeFactorLimit);
     if (widget.percentActiveBump > 100 || widget.percentActiveBump <= 0) {
       log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
@@ -93,7 +101,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
           _rivePullToRefreshState = RivePullToRefreshState.accept;
         }
       }
-      double newValue = (_dragOffset) / (notification.metrics.viewportDimension * _kDragContainerExtentPercentage);
+      double newValue =
+          (_dragOffset) / (notification.metrics.viewportDimension * widget.kDragContainerExtentPercentage);
       if (oldValue != null) {
         var value = _positionController.value + (oldValue! - newValue);
         _positionController.value = clampDouble(value, 0.0, 1.0);
@@ -113,7 +122,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   void checkScroolEnd({bool jumpTo = false}) async {
     completer = Completer();
     if (_rivePullToRefreshState == RivePullToRefreshState.accept) {
-      await _positionController.animateTo(1 / _kDragSizeFactorLimit, duration: _kIndicatorScaleDuration);
+      await _positionController.animateTo(1 / widget.kDragSizeFactorLimit, duration: _kIndicatorScaleDuration);
       widget.bump?.call(true);
       await Future.delayed(widget.animTime);
       _positionController.animateTo(0.0, duration: _kIndicatorScaleDuration);
