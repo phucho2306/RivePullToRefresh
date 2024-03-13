@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       ),
       body: RivePullToRefresh(
         //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.4 * 3,
+        kDragContainerExtentPercentage: 0.4,
         kDragSizeFactorLimit: 1.5,
         percentActiveBump: 50,
         style: RivePullToRefreshStyle.header,
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           _smiNumber?.value = number;
         },
         riveWidget: SizedBox(
-          height: 500,
+          height: 100,
           child: RiveAnimation.asset(
             'assets/pullrf.riv',
             onInit: _onRiveInit,
