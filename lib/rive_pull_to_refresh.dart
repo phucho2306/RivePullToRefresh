@@ -12,31 +12,32 @@ const Duration _kIndicatorScaleDuration = Duration(milliseconds: 200);
 class RivePullToRefreshController {
   RivePullToRefreshController({
     Future<void> Function()? onRefreshI,
-    this.controller,
+    ScrollController? controller,
     AnimationController? positionController,
   }) : super() {
     onRefresh = onRefreshI;
+    _controller = controller;
     _positionController = positionController;
   }
-  RivePullToRefreshState? rivePullToRefreshState;
+  RivePullToRefreshState? _rivePullToRefreshState;
 
   Future<void> Function()? onRefresh;
 
-  double? oldValue;
+  double? _oldValue;
 
-  double dragOffset = 0.0;
+  double _dragOffset = 0.0;
 
-  ScrollController? controller;
+  ScrollController? _controller;
 
   AnimationController? _positionController;
 
   Future close({bool jumpTo = false}) async {
     await _positionController?.animateTo(0.0, duration: _kIndicatorScaleDuration);
-    oldValue = null;
-    dragOffset = 0.0;
-    rivePullToRefreshState = null;
+    _oldValue = null;
+    _dragOffset = 0.0;
+    _rivePullToRefreshState = null;
     if (jumpTo) {
-      controller?.jumpTo(0);
+      _controller?.jumpTo(0);
     }
   }
 }
@@ -124,33 +125,33 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     if (notification is ScrollStartNotification && notification.metrics.pixels == 0) {
       _shouldStart = true;
     }
-    if (notification.metrics.pixels > 0 && _controller.rivePullToRefreshState == null) {
+    if (notification.metrics.pixels > 0 && _controller._rivePullToRefreshState == null) {
       _shouldStart = false;
     }
 
-    if (_controller.rivePullToRefreshState != null && _shouldStart == true) {
+    if (_controller._rivePullToRefreshState != null && _shouldStart == true) {
       // calculator position here
       if (notification is ScrollUpdateNotification) {
-        _controller.dragOffset = _controller.dragOffset + notification.scrollDelta!;
-        _controller.rivePullToRefreshState = RivePullToRefreshState.cancel;
+        _controller._dragOffset = _controller._dragOffset + notification.scrollDelta!;
+        _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
       }
       if (notification is OverscrollNotification) {
-        _controller.dragOffset = _controller.dragOffset + notification.overscroll;
+        _controller._dragOffset = _controller._dragOffset + notification.overscroll;
         if (_positionController.value > (widget.percentActiveBump / 100)) {
-          _controller.rivePullToRefreshState = RivePullToRefreshState.accept;
+          _controller._rivePullToRefreshState = RivePullToRefreshState.accept;
         }
       }
       double newValue =
-          (_controller.dragOffset) / (notification.metrics.viewportDimension * widget.kDragContainerExtentPercentage);
-      if (_controller.oldValue != null) {
-        var value = _positionController.value + (_controller.oldValue! - newValue);
+          (_controller._dragOffset) / (notification.metrics.viewportDimension * widget.kDragContainerExtentPercentage);
+      if (_controller._oldValue != null) {
+        var value = _positionController.value + (_controller._oldValue! - newValue);
         _positionController.value = clampDouble(value, 0.0, 1.0);
         widget.callBacknumber?.call(_positionController.value * 100);
       }
-      _controller.oldValue = newValue;
+      _controller._oldValue = newValue;
     }
     if (notification is ScrollEndNotification) {
-      if (_controller.rivePullToRefreshState == null) {
+      if (_controller._rivePullToRefreshState == null) {
         return false;
       }
       checkScroolEnd(jumpTo: _positionController.value > 0);
@@ -160,11 +161,11 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
 
   void checkScroolEnd({bool jumpTo = false}) async {
     completer = Completer();
-    if (_controller.rivePullToRefreshState == RivePullToRefreshState.accept) {
+    if (_controller._rivePullToRefreshState == RivePullToRefreshState.accept) {
       await _positionController.animateTo(1 / widget.kDragSizeFactorLimit, duration: _kIndicatorScaleDuration);
       await widget.bump?.call();
     } else {
-      _controller.close(jumpTo: jumpTo);
+      await _controller.close(jumpTo: jumpTo);
     }
     completer!.complete();
     completer = null;
@@ -181,12 +182,12 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
           if (notification.depth != 0 || !notification.leading) {
             return false;
           }
-          if (_controller.rivePullToRefreshState != null && _shouldStart) {
+          if (_controller._rivePullToRefreshState != null && _shouldStart) {
             notification.disallowIndicator();
           } else {
-            if (_controller.rivePullToRefreshState == null) {
+            if (_controller._rivePullToRefreshState == null) {
               // action first pull Overscroll to active refresh
-              _controller.rivePullToRefreshState = RivePullToRefreshState.cancel;
+              _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
               return true;
             }
           }
@@ -197,7 +198,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       ),
     );
     Widget riveWidget = SizeTransition(
-      axisAlignment: _controller.rivePullToRefreshState == null ? 1.0 : -1.0,
+      axisAlignment: _controller._rivePullToRefreshState == null ? 1.0 : -1.0,
       sizeFactor: _positionFactor, // this is what brings it down
       child: AnimatedBuilder(
         animation: _positionController,
@@ -212,7 +213,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
         children: [
           child,
           Opacity(
-            opacity: _controller.rivePullToRefreshState != null ? 0 : 1,
+            opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
             child: riveWidget,
           ),
         ],
@@ -221,7 +222,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     return Column(
       children: [
         Opacity(
-          opacity: _controller.rivePullToRefreshState != null ? 0 : 1,
+          opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
           child: riveWidget,
         ),
         Expanded(
