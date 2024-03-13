@@ -22,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   SMIBool? _bump;
   SMINumber? _smiNumber;
   final ScrollController _controller = ScrollController();
+  RivePullToRefreshController? _rivePullToRefreshController;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,14 +31,31 @@ class _MyAppState extends State<MyApp> {
         title: const Text('Expample App'),
       ),
       body: RivePullToRefresh(
+        onInit: (controller) {
+          _rivePullToRefreshController = controller;
+        },
         //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.4,
+        kDragContainerExtentPercentage: 0.25,
         kDragSizeFactorLimit: 1.5,
         percentActiveBump: 50,
-        style: RivePullToRefreshStyle.header,
-        bump: (value) {
-          //action start anim after refresh call
-          _bump?.value = value;
+        style: RivePullToRefreshStyle.floating,
+        bump: () async {
+          //action start anim when stop Scrool
+          _bump?.value = true;
+
+          //time play anim
+          await Future.delayed(const Duration(seconds: 2));
+
+          //close header
+          await _rivePullToRefreshController!.close();
+
+          //reset rive, design from rive.riv
+          _bump?.value = false;
+
+          //call function onRefresh
+          _rivePullToRefreshController!.onRefresh!();
+
+          //TimeStartAnim
         },
         callBacknumber: (number) {
           //anim when pull
