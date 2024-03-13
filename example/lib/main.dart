@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           //close header
           await _rivePullToRefreshController!.close();
 
-          //reset rive
+          //reset rive, design from rive.riv
           _bump?.value = false;
 
           //call function onRefresh
