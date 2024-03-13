@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         kDragContainerExtentPercentage: 0.25,
         kDragSizeFactorLimit: 1.5,
         percentActiveBump: 50,
-        style: RivePullToRefreshStyle.floating,
+        style: RivePullToRefreshStyle.header,
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
