@@ -30,18 +30,21 @@ class _MyAppState extends State<MyApp> {
         title: const Text('Expample App'),
       ),
       body: RivePullToRefresh(
-        kDragContainerExtentPercentage: 0.4,
+        //if the height of rive widget is larger try to upper this value
+        kDragContainerExtentPercentage: 0.4 * 3,
         kDragSizeFactorLimit: 1.5,
         percentActiveBump: 50,
         style: RivePullToRefreshStyle.header,
         bump: (value) {
+          //action start anim after refresh call
           _bump?.value = value;
         },
         callBacknumber: (number) {
+          //anim when pull
           _smiNumber?.value = number;
         },
         riveWidget: SizedBox(
-          height: 100,
+          height: 500,
           child: RiveAnimation.asset(
             'assets/pullrf.riv',
             onInit: _onRiveInit,

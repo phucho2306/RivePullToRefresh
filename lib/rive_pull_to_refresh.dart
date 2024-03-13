@@ -24,6 +24,7 @@ class RivePullToRefresh extends StatefulWidget {
       this.kDragContainerExtentPercentage = 0.25,
       Key? key})
       : super(key: key);
+
   final Widget child;
 
   /// [kDragSizeFactorLimit]How much the scroll's drag gesture can overshoot the RefreshIndicator's
@@ -174,6 +175,16 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
         child: widget.child,
       ),
     );
+    Widget riveWidget = SizeTransition(
+      axisAlignment: _rivePullToRefreshState == null ? 1.0 : -1.0,
+      sizeFactor: _positionFactor, // this is what brings it down
+      child: AnimatedBuilder(
+        animation: _positionController,
+        builder: (BuildContext context, Widget? _) {
+          return widget.riveWidget;
+        },
+      ),
+    );
 
     if (widget.style == RivePullToRefreshStyle.floating) {
       return Stack(
@@ -181,16 +192,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
           child,
           Opacity(
             opacity: _rivePullToRefreshState != null ? 0 : 1,
-            child: SizeTransition(
-              axisAlignment: _rivePullToRefreshState == null ? 1.0 : -1.0,
-              sizeFactor: _positionFactor, // this is what brings it down
-              child: AnimatedBuilder(
-                animation: _positionController,
-                builder: (BuildContext context, Widget? _) {
-                  return widget.riveWidget;
-                },
-              ),
-            ),
+            child: riveWidget,
           ),
         ],
       );
@@ -199,16 +201,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       children: [
         Opacity(
           opacity: _rivePullToRefreshState != null ? 0 : 1,
-          child: SizeTransition(
-            axisAlignment: _rivePullToRefreshState == null ? 1.0 : -1.0,
-            sizeFactor: _positionFactor, // this is what brings it down
-            child: AnimatedBuilder(
-              animation: _positionController,
-              builder: (BuildContext context, Widget? _) {
-                return widget.riveWidget;
-              },
-            ),
-          ),
+          child: riveWidget,
         ),
         Expanded(
           child: child,
