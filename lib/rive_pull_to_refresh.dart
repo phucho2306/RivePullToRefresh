@@ -26,12 +26,10 @@ class RivePullToRefresh extends StatefulWidget {
       : super(key: key);
   final Widget child;
 
-  // [kDragSizeFactorLimit]How much the scroll's drag gesture can overshoot the RefreshIndicator's
-  // displacement; max displacement = _kDragSizeFactorLimit * displacement.
+  /// [kDragSizeFactorLimit]How much the scroll's drag gesture can overshoot the RefreshIndicator's
   final double kDragSizeFactorLimit;
 
   ///[kDragContainerExtentPercentage] The over-scroll distance that moves the indicator to its maximum
-  /// displacement, as a percentage of the scrollable's container extent.
   final double kDragContainerExtentPercentage;
 
   ///[controller] to set position to 0.0 when client cancel refresh
@@ -44,9 +42,12 @@ class RivePullToRefresh extends StatefulWidget {
   final Function(double)? callBacknumber;
   final Widget riveWidget;
   final Future<void> Function() onRefresh;
+
+  ///Duration [animTime] time will play anim before close and call back onRefresh
   final Duration animTime;
 
-  ///[percentActiveBump] value range 0 to 100
+  ///[percentActiveBump] value range 0 to 100.
+  /// when user stop drang and value of if position(value range 0.0 to 1.0)* 100 > percentActiveBump refresh will start
   final double percentActiveBump;
 
   @override
