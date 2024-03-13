@@ -40,6 +40,10 @@ class RivePullToRefreshController {
       _controller?.jumpTo(0);
     }
   }
+
+  void dispose() {
+    _positionController?.dispose();
+  }
 }
 
 class RivePullToRefresh extends StatefulWidget {
@@ -110,12 +114,6 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     _controller = RivePullToRefreshController(
         onRefreshI: widget.onRefresh, controller: widget.controller, positionController: _positionController);
     widget.onInit(_controller);
-  }
-
-  @override
-  void dispose() {
-    _positionController.dispose();
-    super.dispose();
   }
 
   bool handleOnNotification(ScrollNotification notification) {

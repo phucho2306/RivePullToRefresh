@@ -19,10 +19,17 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _rivePullToRefreshController?.dispose();
+    super.dispose();
+  }
+
   SMIBool? _bump;
   SMINumber? _smiNumber;
   final ScrollController _controller = ScrollController();
   RivePullToRefreshController? _rivePullToRefreshController;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
