@@ -133,7 +133,11 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       // calculator position here
       if (notification is ScrollUpdateNotification) {
         _controller._dragOffset = _controller._dragOffset + notification.scrollDelta!;
-        _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
+
+        //When the user pulls up a little, it is still a accepted
+        if (_positionController.value <= 0.95) {
+          _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
+        }
       }
       if (notification is OverscrollNotification) {
         _controller._dragOffset = _controller._dragOffset + notification.overscroll;
