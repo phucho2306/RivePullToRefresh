@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
         title: const Text('Expample App'),
       ),
       body: RivePullToRefresh(
+        timeResize: const Duration(seconds: 1),
         onInit: (controller) {
           _rivePullToRefreshController = controller;
         },
@@ -46,6 +47,8 @@ class _MyAppState extends State<MyApp> {
         kDragSizeFactorLimit: 1.5,
         percentActiveBump: 50,
         style: RivePullToRefreshStyle.header,
+        curveMoveToPositionBump: Curves.bounceOut,
+        onMoveToPositionBump: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
@@ -57,6 +60,7 @@ class _MyAppState extends State<MyApp> {
           await _rivePullToRefreshController!.close();
 
           //reset rive, design from rive.riv
+
           _bump?.value = false;
 
           //call function onRefresh
@@ -103,6 +107,6 @@ class _MyAppState extends State<MyApp> {
 
     _bump = controller.findInput<bool>("Active") as SMIBool;
 
-    _smiNumber = controller.findInput<double>("NumStart") as SMINumber;
+    _smiNumber = controller.findInput<double>("dragNumber") as SMINumber;
   }
 }
