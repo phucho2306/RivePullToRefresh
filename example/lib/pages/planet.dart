@@ -87,10 +87,11 @@ class _MyAppState extends State<Planet> {
         percentActiveBump: 50,
         style: isFloatStyle ? RivePullToRefreshStyle.floating : RivePullToRefreshStyle.header,
         curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        onMoveToPositionBump: () {
+          _bump?.value = true;
+        },
         bump: () async {
           //action start anim when stop Scrool
-          _bump?.value = true;
 
           //time play anim
           await Future.delayed(const Duration(seconds: 2));
@@ -101,6 +102,7 @@ class _MyAppState extends State<Planet> {
           //reset rive, design from rive.riv
 
           _bump?.value = false;
+          _smiNumber?.value = 0;
 
           //call function onRefresh
           _rivePullToRefreshController!.onRefresh!();
