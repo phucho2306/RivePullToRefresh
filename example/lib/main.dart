@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
-import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
+import 'package:rive_pull_to_refresh_example/pages/gif.dart';
+import 'package:rive_pull_to_refresh_example/pages/liquid.dart';
+import 'package:rive_pull_to_refresh_example/pages/planet.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,98 +16,84 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _rivePullToRefreshController?.dispose();
-    super.dispose();
-  }
-
-  SMIBool? _bump;
-  SMINumber? _smiNumber;
-  final ScrollController _controller = ScrollController();
-  RivePullToRefreshController? _rivePullToRefreshController;
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text('Expample App'),
-      ),
-      body: RivePullToRefresh(
-        timeResize: const Duration(seconds: 1),
-        onInit: (controller) {
-          _rivePullToRefreshController = controller;
+      routes: <String, WidgetBuilder>{
+        Planet.route: (BuildContext context) {
+          return const Planet();
         },
-        //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.25,
-        kDragSizeFactorLimit: 1.5,
-        percentActiveBump: 50,
-        style: RivePullToRefreshStyle.header,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
-        bump: () async {
-          //action start anim when stop Scrool
-          _bump?.value = true;
-
-          //time play anim
-          await Future.delayed(const Duration(seconds: 2));
-
-          //close header
-          await _rivePullToRefreshController!.close();
-
-          //reset rive, design from rive.riv
-
-          _bump?.value = false;
-
-          //call function onRefresh
-          _rivePullToRefreshController!.onRefresh!();
-
-          //TimeStartAnim
+        Liquid.route: (BuildContext context) {
+          return const Liquid();
         },
-        callBacknumber: (number) {
-          //anim when pull
-          _smiNumber?.value = number;
+        MainPage.route: (BuildContext context) {
+          return const MainPage();
         },
-        riveWidget: SizedBox(
-          height: 100,
-          child: RiveAnimation.asset(
-            'assets/pullrf.riv',
-            onInit: _onRiveInit,
-          ),
-        ),
-        controller: _controller,
-        onRefresh: () async {},
-        child: ListView.builder(
-          controller: _controller,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Card(
-              child: SizedBox(
-                height: 200,
-                child: Center(
-                  child: Text(
-                    index.toString(),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    ));
+        Gif.route: (BuildContext context) {
+          return const Gif();
+        }
+      },
+    );
   }
+}
 
-  void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, "State Machine");
-    artboard.addController(controller!);
+class MainPage extends StatefulWidget {
+  static const String route = "/";
+  const MainPage({super.key});
 
-    _bump = controller.findInput<bool>("Active") as SMIBool;
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
 
-    _smiNumber = controller.findInput<double>("dragNumber") as SMINumber;
+class _MainPageState extends State<MainPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Rive Pull To Refresh"),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            AppButton(
+              title: "Planet",
+              onPress: () => Navigator.pushNamed(context, Planet.route),
+            ),
+            AppButton(
+              title: "Lipuid",
+              onPress: () => Navigator.pushNamed(
+                context,
+                Liquid.route,
+              ),
+            ),
+            AppButton(
+              title: "Gif",
+              onPress: () => Navigator.pushNamed(
+                context,
+                Gif.route,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AppButton extends StatelessWidget {
+  const AppButton({this.title = "", this.onPress, super.key});
+  final String title;
+  final Function()? onPress;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPress,
+      child: Container(
+        color: Colors.amber,
+        margin: const EdgeInsets.only(bottom: 15),
+        height: 50,
+        width: double.infinity,
+        child: Center(child: Text(title)),
+      ),
+    );
   }
 }

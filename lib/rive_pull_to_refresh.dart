@@ -72,20 +72,29 @@ class RivePullToRefresh extends StatefulWidget {
       this.style = RivePullToRefreshStyle.header,
       this.controller,
       this.percentActiveBump = 30,
-      this.kDragSizeFactorLimit = 1.5,
+      this.dragSizeFactorLimitMax = 1.5,
+      this.sizeFactorLimitMin = 1 / 1.5,
       this.kDragContainerExtentPercentage = 0.25,
       required this.onInit,
       this.timeResize = const Duration(milliseconds: 200),
       this.onMoveToPositionBump,
       this.curveMoveToPositionBump = Curves.linear,
+      this.maxSizePaddingChildWhenPullDown = 0,
+      this.background,
       Key? key})
       : super(key: key);
 
   final Widget child;
+  final Widget? background;
+  //[maxSizePaddingChildWhenPullDown] avaible if RivePullToRefreshStyle is header
+  final double maxSizePaddingChildWhenPullDown;
   final void Function(RivePullToRefreshController) onInit;
 
-  /// [kDragSizeFactorLimit]How much the scroll's drag gesture can overshoot the RefreshIndicator's
-  final double kDragSizeFactorLimit;
+  /// [dragSizeFactorLimitMax]How much the scroll's drag gesture can overshoot the RefreshIndicator's
+  final double dragSizeFactorLimitMax;
+
+  /// [sizeFactorLimitMin] value range 0.0 to dragSizeFactorLimitMax
+  final double sizeFactorLimitMin;
 
   ///[kDragContainerExtentPercentage] The over-scroll distance that moves the indicator to its maximum
   final double kDragContainerExtentPercentage;
@@ -123,7 +132,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   @override
   void initState() {
     super.initState();
-    _kDragSizeFactorLimitTween = Tween<double>(begin: 0.0, end: widget.kDragSizeFactorLimit);
+    _kDragSizeFactorLimitTween = Tween<double>(begin: 0.0, end: widget.dragSizeFactorLimitMax);
     if (widget.percentActiveBump > 100 || widget.percentActiveBump <= 0) {
       log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
@@ -185,7 +194,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     completer = Completer();
     if (_controller._rivePullToRefreshState == RivePullToRefreshState.accept) {
       widget.onMoveToPositionBump?.call();
-      await _positionController.animateTo(1 / widget.kDragSizeFactorLimit,
+      await _positionController.animateTo(widget.sizeFactorLimitMin,
           duration: widget.timeResize, curve: widget.curveMoveToPositionBump!);
       await widget.bump?.call();
     } else {
@@ -235,7 +244,25 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     if (widget.style == RivePullToRefreshStyle.floating) {
       return Stack(
         children: [
-          child,
+          widget.maxSizePaddingChildWhenPullDown == 0
+              ? child
+              : Column(
+                  children: [
+                    SizeTransition(
+                      axisAlignment: _controller._rivePullToRefreshState == null ? 1.0 : -1.0,
+                      sizeFactor: _positionFactor, // this is what brings it down
+                      child: AnimatedBuilder(
+                        animation: _positionController,
+                        builder: (BuildContext context, Widget? _) {
+                          return SizedBox(
+                            height: widget.maxSizePaddingChildWhenPullDown,
+                          );
+                        },
+                      ),
+                    ),
+                    Expanded(child: child),
+                  ],
+                ),
           Opacity(
             opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
             child: riveWidget,
