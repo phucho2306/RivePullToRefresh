@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rive_pull_to_refresh_example/pages/gif.dart';
 import 'package:rive_pull_to_refresh_example/pages/liquid.dart';
 import 'package:rive_pull_to_refresh_example/pages/planet.dart';
+import 'package:rive_pull_to_refresh_example/pages/pull_rf_lipid.dart';
+import 'package:rive_pull_to_refresh_example/pages/space_reload.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +32,13 @@ class _MyAppState extends State<MyApp> {
         },
         Gif.route: (BuildContext context) {
           return const Gif();
-        }
+        },
+        SpaceReload.route: (BuildContext context) {
+          return const SpaceReload();
+        },
+        PullRflipid.route: (BuildContext context) {
+          return const PullRflipid();
+        },
       },
     );
   }
@@ -70,6 +78,20 @@ class _MainPageState extends State<MainPage> {
               onPress: () => Navigator.pushNamed(
                 context,
                 Gif.route,
+              ),
+            ),
+            AppButton(
+              title: "Space",
+              onPress: () => Navigator.pushNamed(
+                context,
+                SpaceReload.route,
+              ),
+            ),
+            AppButton(
+              title: "Lipid",
+              onPress: () => Navigator.pushNamed(
+                context,
+                PullRflipid.route,
               ),
             )
           ],
