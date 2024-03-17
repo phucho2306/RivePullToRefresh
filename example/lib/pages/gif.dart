@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 
 class Gif extends StatefulWidget {

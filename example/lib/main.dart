@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rive_pull_to_refresh_example/pages/gif.dart';
+import 'package:rive_pull_to_refresh_example/pages/image.dart';
 import 'package:rive_pull_to_refresh_example/pages/liquid.dart';
 import 'package:rive_pull_to_refresh_example/pages/planet.dart';
 import 'package:rive_pull_to_refresh_example/pages/pull_rf_lipid.dart';
@@ -38,6 +39,9 @@ class _MyAppState extends State<MyApp> {
         },
         PullRflipid.route: (BuildContext context) {
           return const PullRflipid();
+        },
+        ImageR.route: (BuildContext context) {
+          return const ImageR();
         },
       },
     );
@@ -92,6 +96,13 @@ class _MainPageState extends State<MainPage> {
               onPress: () => Navigator.pushNamed(
                 context,
                 PullRflipid.route,
+              ),
+            ),
+            AppButton(
+              title: "Image",
+              onPress: () => Navigator.pushNamed(
+                context,
+                ImageR.route,
               ),
             )
           ],

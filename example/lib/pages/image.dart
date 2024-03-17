@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 
-class PullRflipid extends StatefulWidget {
-  static const String route = "/pull_rf_lipid";
-  const PullRflipid({super.key});
+class ImageR extends StatefulWidget {
+  static const String route = "/image";
+  const ImageR({super.key});
 
   @override
-  State<PullRflipid> createState() => _MyAppState();
+  State<ImageR> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<PullRflipid> {
+class _MyAppState extends State<ImageR> {
   @override
   void initState() {
     super.initState();
@@ -22,47 +21,37 @@ class _MyAppState extends State<PullRflipid> {
     super.dispose();
   }
 
-  SMIBool? _bump;
-  SMINumber? _smiNumber;
-  SMITrigger? _restart;
-  final ScrollController _controller = ScrollController();
+  double size = 200;
   RivePullToRefreshController? _rivePullToRefreshController;
-
+  final ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('Lipid'),
+        title: const Text('ImageR'),
       ),
       body: RivePullToRefresh(
-        timeResize: const Duration(milliseconds: 200),
+        maxSizePaddingChildWhenPullDown: size,
+        timeResize: const Duration(milliseconds: 100),
         onInit: (controller) {
           _rivePullToRefreshController = controller;
         },
 
         //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.25,
+        kDragContainerExtentPercentage: 0.45,
         dragSizeFactorLimitMax: 1,
-        sizeFactorLimitMin: 1,
-
+        sizeFactorLimitMin: 0.8,
         percentActiveBump: 50,
-        style: RivePullToRefreshStyle.header,
+        style: RivePullToRefreshStyle.floating,
         curveMoveToPositionBump: Curves.bounceOut,
         onMoveToPositionBump: () {},
         bump: () async {
-          //action start anim when stop Scrool
-          _bump?.value = true;
-
           //time play anim
           await Future.delayed(const Duration(seconds: 2));
-          _bump?.value = false;
 
-          await Future.delayed(const Duration(seconds: 2));
           //close header
           await _rivePullToRefreshController!.close();
-
-          _restart?.fire();
 
           //call function onRefresh
           _rivePullToRefreshController!.onRefresh!();
@@ -71,17 +60,25 @@ class _MyAppState extends State<PullRflipid> {
         },
         callBacknumber: (number) {
           //anim when pull
-          _smiNumber?.value = number;
+          print(number);
         },
         riveWidget: SizedBox(
-          height: 200,
-          child: RiveAnimation.asset(
-            fit: BoxFit.fitWidth,
-            'assets/pullrflipid.riv',
-            onInit: _onRiveInit,
+          height: size,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Image.network(
+                    fit: BoxFit.cover,
+                    "https://storage.googleapis.com/cms-storage-bucket/images/Cupid_Dash_BlueBG.width-635.png"),
+              ),
+              const Align(
+                alignment: Alignment.center,
+                child: Padding(padding: EdgeInsets.only(top: 45), child: RefreshProgressIndicator()),
+              ),
+            ],
           ),
         ),
-
         controller: _controller,
         onRefresh: () async {},
         child: ListView.builder(
@@ -102,14 +99,5 @@ class _MyAppState extends State<PullRflipid> {
         ),
       ),
     ));
-  }
-
-  void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, "Motion");
-    artboard.addController(controller!);
-
-    _bump = controller.findInput<bool>("start") as SMIBool;
-    _restart = controller.findInput<bool>("restart") as SMITrigger;
-    _smiNumber = controller.findInput<double>("numDrag") as SMINumber;
   }
 }
