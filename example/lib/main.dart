@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rive_pull_to_refresh_example/pages/flip_pid.dart';
 import 'package:rive_pull_to_refresh_example/pages/gif.dart';
 import 'package:rive_pull_to_refresh_example/pages/image.dart';
 import 'package:rive_pull_to_refresh_example/pages/liquid.dart';
@@ -42,6 +43,9 @@ class _MyAppState extends State<MyApp> {
         },
         ImageR.route: (BuildContext context) {
           return const ImageR();
+        },
+        FlipPid.route: (BuildContext context) {
+          return const FlipPid();
         },
       },
     );
@@ -103,6 +107,13 @@ class _MainPageState extends State<MainPage> {
               onPress: () => Navigator.pushNamed(
                 context,
                 ImageR.route,
+              ),
+            ),
+            AppButton(
+              title: "Flip Pid",
+              onPress: () => Navigator.pushNamed(
+                context,
+                FlipPid.route,
               ),
             )
           ],
