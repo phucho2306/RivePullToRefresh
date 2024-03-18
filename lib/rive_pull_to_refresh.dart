@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 enum RivePullToRefreshState { accept, cancel }
 
@@ -60,6 +59,7 @@ class RivePullToRefreshController {
 
   void dispose() {
     _positionController?.dispose();
+    _positionController = null;
   }
 }
 

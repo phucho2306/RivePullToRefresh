@@ -129,14 +129,16 @@ class AppButton extends StatelessWidget {
   final Function()? onPress;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPress,
-      child: Container(
-        color: Colors.amber,
-        margin: const EdgeInsets.only(bottom: 15),
-        height: 50,
-        width: double.infinity,
-        child: Center(child: Text(title)),
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: InkWell(
+        onTap: onPress,
+        child: Container(
+          color: Colors.blueAccent,
+          height: 50,
+          width: double.infinity,
+          child: Center(child: Text(title)),
+        ),
       ),
     );
   }
