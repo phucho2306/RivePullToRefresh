@@ -3,7 +3,7 @@ import 'package:rive/rive.dart';
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 
 class Bow extends StatefulWidget {
-  static const String route = "/flip_pid";
+  static const String route = "/bow";
   const Bow({super.key});
 
   @override
@@ -32,7 +32,7 @@ class _MyAppState extends State<Bow> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('Flip Pid'),
+        title: const Text('Bow'),
       ),
       body: RivePullToRefresh(
         timeResize: const Duration(milliseconds: 200),
@@ -77,7 +77,7 @@ class _MyAppState extends State<Bow> {
           height: 200,
           child: RiveAnimation.asset(
             fit: BoxFit.fitWidth,
-            'assets/pullrflipid.riv',
+            'assets/bow.riv',
             onInit: _onRiveInit,
           ),
         ),
