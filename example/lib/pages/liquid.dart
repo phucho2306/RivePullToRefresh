@@ -46,10 +46,10 @@ class _MyAppState extends State<Liquid> {
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
 
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.floating,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
@@ -73,13 +73,11 @@ class _MyAppState extends State<Liquid> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        riveWidget: SizedBox(
-          height: 120,
-          child: RiveAnimation.asset(
-            fit: BoxFit.cover,
-            'assets/liquid.riv',
-            onInit: _onRiveInit,
-          ),
+        height: 120,
+        riveWidget: RiveAnimation.asset(
+          fit: BoxFit.cover,
+          'assets/liquid.riv',
+          onInit: _onRiveInit,
         ),
 
         controller: _controller,

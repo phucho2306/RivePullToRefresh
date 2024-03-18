@@ -45,10 +45,10 @@ class _MyAppState extends State<SpaceReload> {
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
 
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.header,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
@@ -72,13 +72,11 @@ class _MyAppState extends State<SpaceReload> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        riveWidget: SizedBox(
-          height: 200,
-          child: RiveAnimation.asset(
-            fit: BoxFit.fitWidth,
-            'assets/space_reload.riv',
-            onInit: _onRiveInit,
-          ),
+        height: 200,
+        riveWidget: RiveAnimation.asset(
+          fit: BoxFit.fitWidth,
+          'assets/space_reload.riv',
+          onInit: _onRiveInit,
         ),
 
         controller: _controller,

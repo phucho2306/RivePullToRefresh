@@ -42,10 +42,10 @@ class _MyAppState extends State<ImageR> {
         kDragContainerExtentPercentage: 0.45,
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 0.8,
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.floating,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //time play anim
           await Future.delayed(const Duration(seconds: 2));
@@ -61,22 +61,20 @@ class _MyAppState extends State<ImageR> {
         callBacknumber: (number) {
           //anim when pull
         },
-        riveWidget: SizedBox(
-          height: size,
-          child: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Image.network(
-                    fit: BoxFit.cover,
-                    "https://storage.googleapis.com/cms-storage-bucket/images/Cupid_Dash_BlueBG.width-635.png"),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Padding(padding: EdgeInsets.only(top: 45), child: RefreshProgressIndicator()),
-              ),
-            ],
-          ),
+        height: size,
+        riveWidget: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Image.network(
+                  fit: BoxFit.cover,
+                  "https://storage.googleapis.com/cms-storage-bucket/images/Cupid_Dash_BlueBG.width-635.png"),
+            ),
+            const Align(
+              alignment: Alignment.center,
+              child: Padding(padding: EdgeInsets.only(top: 45), child: RefreshProgressIndicator()),
+            ),
+          ],
         ),
         controller: _controller,
         onRefresh: () async {},

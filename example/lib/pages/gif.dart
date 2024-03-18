@@ -42,10 +42,10 @@ class _MyAppState extends State<Gif> {
         kDragContainerExtentPercentage: 0.45,
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 0.8,
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.floating,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //time play anim
           await Future.delayed(const Duration(seconds: 2));
@@ -61,28 +61,26 @@ class _MyAppState extends State<Gif> {
         callBacknumber: (number) {
           //anim when pull
         },
-        riveWidget: SizedBox(
-          height: size,
-          child: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Image.network(
-                    fit: BoxFit.cover,
-                    "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGxhdjhpd2R2dmFwamEwM2NpaTkyb3RteWhibHFpYWtoMTViNGxsNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/asbP3eIpTXlxS/giphy.gif"),
-              ),
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 40),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: CircularProgressIndicator(),
-                  ),
+        height: size,
+        riveWidget: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Image.network(
+                  fit: BoxFit.cover,
+                  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGxhdjhpd2R2dmFwamEwM2NpaTkyb3RteWhibHFpYWtoMTViNGxsNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/asbP3eIpTXlxS/giphy.gif"),
+            ),
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircularProgressIndicator(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         controller: _controller,
         onRefresh: () async {},

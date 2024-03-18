@@ -44,11 +44,10 @@ class _MyAppState extends State<Bow> {
         kDragContainerExtentPercentage: 0.25,
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
-
-        percentActiveBump: 100,
+        percentActiveBump: 1,
         style: RivePullToRefreshStyle.header,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.fire();
@@ -73,13 +72,11 @@ class _MyAppState extends State<Bow> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        riveWidget: SizedBox(
-          height: 200,
-          child: RiveAnimation.asset(
-            fit: BoxFit.fitWidth,
-            'assets/bow.riv',
-            onInit: _onRiveInit,
-          ),
+        height: 200,
+        riveWidget: RiveAnimation.asset(
+          fit: BoxFit.fitWidth,
+          'assets/bow.riv',
+          onInit: _onRiveInit,
         ),
 
         controller: _controller,

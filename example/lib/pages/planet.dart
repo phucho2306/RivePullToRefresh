@@ -84,10 +84,10 @@ class _MyAppState extends State<Planet> {
         //if the height of rive widget is larger try to upper this value
         kDragContainerExtentPercentage: 0.25,
 
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: isFloatStyle ? RivePullToRefreshStyle.floating : RivePullToRefreshStyle.header,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {
           _bump?.value = true;
         },
         bump: () async {
@@ -113,8 +113,9 @@ class _MyAppState extends State<Planet> {
           //anim when pull
           _smiNumber?.value = number;
         },
+        height: 100,
+
         riveWidget: SizedBox(
-          height: 100,
           child: RiveAnimation.asset(
             'assets/pullrf.riv',
             onInit: _onRiveInit,

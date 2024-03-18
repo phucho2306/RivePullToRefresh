@@ -36,6 +36,7 @@ class _MyAppState extends State<PullRflipid> {
         title: const Text('Lipid'),
       ),
       body: RivePullToRefresh(
+        height: 200,
         timeResize: const Duration(milliseconds: 200),
         onInit: (controller) {
           _rivePullToRefreshController = controller;
@@ -46,10 +47,10 @@ class _MyAppState extends State<PullRflipid> {
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
 
-        percentActiveBump: 50,
+        percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.header,
-        curveMoveToPositionBump: Curves.bounceOut,
-        onMoveToPositionBump: () {},
+        curveMoveToPositionBumpStart: Curves.bounceOut,
+        onMoveToPositionBumpStart: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
@@ -73,13 +74,10 @@ class _MyAppState extends State<PullRflipid> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        riveWidget: SizedBox(
-          height: 200,
-          child: RiveAnimation.asset(
-            fit: BoxFit.fitWidth,
-            'assets/lipid.riv',
-            onInit: _onRiveInit,
-          ),
+        riveWidget: RiveAnimation.asset(
+          fit: BoxFit.fitWidth,
+          'assets/lipid.riv',
+          onInit: _onRiveInit,
         ),
 
         controller: _controller,
