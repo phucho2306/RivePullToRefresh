@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             AppButton(
-              title: "Flip Pid",
+              title: "Bow",
               onPress: () => Navigator.pushNamed(
                 context,
                 Bow.route,

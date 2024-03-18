@@ -77,7 +77,7 @@ class _MyAppState extends State<PullRflipid> {
           height: 200,
           child: RiveAnimation.asset(
             fit: BoxFit.fitWidth,
-            'assets/pullrflipid.riv',
+            'assets/lipid.riv',
             onInit: _onRiveInit,
           ),
         ),
