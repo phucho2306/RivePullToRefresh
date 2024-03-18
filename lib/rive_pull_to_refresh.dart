@@ -19,6 +19,7 @@ class RivePullToRefreshController {
   }
   RivePullToRefreshState? _rivePullToRefreshState;
 
+  ///[onRefresh]You can proactively call the refresh function where you want, after resizing or just finishing playing a certain animation
   Future<void> Function()? onRefresh;
 
   double? _oldValue;
