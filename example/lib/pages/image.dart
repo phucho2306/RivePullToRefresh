@@ -60,7 +60,6 @@ class _MyAppState extends State<ImageR> {
         },
         callBacknumber: (number) {
           //anim when pull
-          print(number);
         },
         riveWidget: SizedBox(
           height: size,

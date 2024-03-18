@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 enum RivePullToRefreshState { accept, cancel }
 
@@ -145,7 +146,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     widget.onInit(_controller);
   }
 
-  bool handleOnNotification(ScrollNotification notification) {
+  bool _handleScrollNotification(ScrollNotification notification) {
     if (completer != null) {
       return false;
     }
@@ -155,8 +156,9 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
     if (notification.metrics.pixels > 0 && _controller._rivePullToRefreshState == null) {
       _shouldStart = false;
     }
-
-    if (_controller._rivePullToRefreshState != null && _shouldStart == true) {
+    if ((notification is ScrollUpdateNotification || notification is OverscrollNotification) &&
+        _controller._rivePullToRefreshState != null &&
+        _shouldStart == true) {
       // calculator position here
       if (notification is ScrollUpdateNotification) {
         _controller._dragOffset = _controller._dragOffset + notification.scrollDelta!;
@@ -168,7 +170,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       }
       if (notification is OverscrollNotification) {
         _controller._dragOffset = _controller._dragOffset + notification.overscroll;
-        if (_positionController.value > (widget.percentActiveBump / 100)) {
+        if (_positionController.value >= (widget.percentActiveBump / 100)) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.accept;
         }
       }
@@ -176,17 +178,20 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
           (_controller._dragOffset) / (notification.metrics.viewportDimension * widget.kDragContainerExtentPercentage);
       if (_controller._oldValue != null) {
         var value = _positionController.value + (_controller._oldValue! - newValue);
+
         _positionController.value = clampDouble(value, 0.0, 1.0);
+
         widget.callBacknumber?.call(_positionController.value * 100);
       }
+
       _controller._oldValue = newValue;
-    }
-    if (notification is ScrollEndNotification) {
+    } else if (notification is ScrollEndNotification) {
       if (_controller._rivePullToRefreshState == null) {
         return false;
       }
       checkScroolEnd(jumpTo: _positionController.value > 0);
     }
+
     return true;
   }
 
@@ -209,7 +214,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
     final Widget child = NotificationListener<ScrollNotification>(
-      onNotification: handleOnNotification,
+      onNotification: _handleScrollNotification,
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (notification) {
           if (notification.depth != 0 || !notification.leading) {

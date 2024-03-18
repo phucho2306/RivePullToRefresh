@@ -45,7 +45,7 @@ class _MyAppState extends State<FlipPid> {
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
 
-        percentActiveBump: 50,
+        percentActiveBump: 100,
         style: RivePullToRefreshStyle.header,
         curveMoveToPositionBump: Curves.bounceOut,
         onMoveToPositionBump: () {},
