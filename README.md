@@ -5,6 +5,8 @@
     	<img src="https://img.shields.io/badge/Platform-Flutter-blue"alt="Platform" />
 	<a href="https://github.com/phucho236/RivePullToRefresh/blob/master/LICENSE">
     	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"alt="LICENSE" />
+	<a href="https://github.com/phucho236/RivePullToRefresh">
+    	<img src="https://img.shields.io/badge/HomePage-RivePullToRefresh-blue"alt="HomePage" />
 </div>
 		
 # Intro
@@ -17,10 +19,10 @@
 	+ close header
 	...
 - Customize
-  	+ floating, header mode
+	+ floating, header mode
 	+ percent resize to activate refresh
 	+ Duration, Cuver
- 	+ ...
+	+ ...
 <div align="center">
 	<table>
 		<thead>
