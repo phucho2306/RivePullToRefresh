@@ -41,8 +41,6 @@ import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 
 Check editor Rive [here](https://rive.app/community/8921-17052-rive-files-use-for-a-package-from-flutter/)
 
-# Rive Side
-
 Example, use rive file from:
 
 [JcToon](https://rive.app/@JcToon/) : [community](https://rive.app/community/3146-6725-pull-to-refresh/)
