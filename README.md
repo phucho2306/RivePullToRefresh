@@ -4,6 +4,16 @@
 
 - Integrate rive quickly
 
+  <div align="center">
+	<a href="https://flutter.io">
+    <img src="https://img.shields.io/badge/Platform-Flutter-blue"
+      alt="Platform" />
+  <a href="paypalme/phucho2306">
+    <img src="https://img.shields.io/badge/Donate-Paypal-blue"
+      alt="Donate" />
+  </a>
+</div><be>
+
 ## Wanrning
 - You must know a little bit of rive. If not you can use the existing rive files in the example.
 
@@ -40,8 +50,6 @@ import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 # Rive Side
 
 Check editor Rive [here](https://rive.app/community/8921-17052-rive-files-use-for-a-package-from-flutter/)
-
-# Rive Side
 
 Example, use rive file from:
 
