@@ -6,10 +6,10 @@
 
   <div align="center">
 	<a href="https://flutter.io">
-    <img src="https://img.shields.io/badge/Platform-Flutter-yellow.svg"
+    <img src="https://img.shields.io/badge/Platform-Flutter-blue"
       alt="Platform" />
   <a href="paypalme/phucho2306">
-    <img src="https://img.shields.io/badge/Donate-PayPal-green.svg"
+    <img src="https://img.shields.io/badge/Donate-Paypal-blue"
       alt="Donate" />
   </a>
 </div><be>
