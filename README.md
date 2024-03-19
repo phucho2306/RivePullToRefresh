@@ -10,7 +10,7 @@
 </div>
 		
 # Wanrning
-- You must know a little bit of rive. If not you can use the existing rive files in the example.
+- You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from Flutter side).
 
 # Flutter Side
 
