@@ -1,6 +1,6 @@
 name: rive_pull_to_refresh
 description: A custom refresh indicator with Rive, Image, Gif...
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/phucho236/RivePullToRefresh
 repository: https://github.com/phucho236/RivePullToRefresh
 
