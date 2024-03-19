@@ -3,7 +3,7 @@
 <div align="center">
 	<a href="https://flutter.io">
     	<img src="https://img.shields.io/badge/Platform-Flutter-blue"alt="Platform" />
-	<a href="/LICENSE">
+	<a href="https://github.com/phucho236/RivePullToRefresh/blob/master/LICENSE">
     	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"alt="LICENSE" />
 </div>
 		
