@@ -26,7 +26,7 @@
 		<thead>
 			<tr>
 			<th style="text-align:center"><code>planet</code></th>
-			<th style="text-align:center"><code>liquide</code></th>
+			<th style="text-align:center"><code>liquid</code></th>
 			<th style="text-align:center"><code>bow</code></th>
 			</tr>
 		</thead>
