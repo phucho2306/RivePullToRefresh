@@ -4,6 +4,16 @@
 
 - Integrate rive quickly
 
+  <div align="center">
+	<a href="https://flutter.io">
+    <img src="https://img.shields.io/badge/Platform-Flutter-yellow.svg"
+      alt="Platform" />
+  <a href="paypalme/phucho2306">
+    <img src="https://img.shields.io/badge/Donate-PayPal-green.svg"
+      alt="Donate" />
+  </a>
+</div><be>
+
 ## Wanrning
 - You must know a little bit of rive. If not you can use the existing rive files in the example.
 
