@@ -4,14 +4,15 @@
 
 - Integrate rive quickly
 
-  <div align="center">
+<div align="center">
 	<a href="https://flutter.io">
-    <img src="https://img.shields.io/badge/Platform-Flutter-blue"
-      alt="Platform" />
-  <a href="paypalme/phucho2306">
-    <img src="https://img.shields.io/badge/Donate-Paypal-blue"
-      alt="Donate" />
-  </a>
+    	<img src="https://img.shields.io/badge/Platform-Flutter-blue"alt="Platform" />
+	<a href="/LICENSE">
+    	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"alt="LICENSE" />
+  	<a href="https://www.paypal.com/paypalme/phucho2306">
+    	<img src="https://img.shields.io/badge/Donate-Paypal-blue"alt="Donate" />
+	<a href="https://me.momo.vn/G9IguZfofzt3CdtWuMu7">
+    	<img src="https://img.shields.io/badge/Donate-Momo-D82d88"alt="Donate" />
 </div><be>
 
 ## Wanrning
