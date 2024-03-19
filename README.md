@@ -1,7 +1,5 @@
 # rive_pull_to_refresh
 # Intro
-- A custom refresh indicator with Rive, Image, GIF...
-- Integrate rive quickly
 <div align="center">
 	<a href="https://flutter.io">
     	<img src="https://img.shields.io/badge/Platform-Flutter-blue"alt="Platform" />
@@ -9,15 +7,27 @@
     	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"alt="LICENSE" />
 </div>
 		
+- A custom refresh indicator with Rive, Image, GIF...
+- Integrate rive quickly
+- Provides callbacks for the pull-to-refresh action:
+	+ value when the client pulls down, pulls up.
+	+ stop scrolling
+	+ close header
+	...
+- Customize
+  	+ floating, header mode
+	+ percent resize to activate refresh
+	+ Duration, Cuver
+ 	+ ... 	
 # Wanrning
-- You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from Flutter side).
+- You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from the Flutter side).
 
 # Flutter Side
 
 ### 1. Depend on it
 Add this to your package's `pubspec.yaml` file:
 ```yaml
-  rive_pull_to_refresh: ^1.0.0
+rive_pull_to_refresh: ^1.0.0
 ```
 
 ### 2. Install it
@@ -40,7 +50,7 @@ import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 ```
 
 # Rive Side
-Check editor Rive [here](https://rive.app/community/8921-17052-rive-files-use-for-a-package-from-flutter/)
+Check editor Rive to know State Machine and Inputs [here](https://rive.app/community/8921-17052-rive-files-use-for-a-package-from-flutter/)
 # Example use rive file from:
 
 [JcToon](https://rive.app/@JcToon/) : [community](https://rive.app/community/3146-6725-pull-to-refresh/)\
