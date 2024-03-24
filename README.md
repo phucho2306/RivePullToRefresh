@@ -3,7 +3,7 @@
 <div align="center">
 	<a href="https://flutter.io">
     	<img src="https://img.shields.io/badge/Platform-Flutter-blue"/>
-	<a href="https://github.com/phucho236/RivePullToRefresh/blob/master/LICENSE">
+	<a href="https://github.com/phucho236/RivePullToRefresh/blob/main/LICENSE">
     	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"/>
 	<a href="https://pub.dev/documentation/rive_pull_to_refresh/latest/rive_pull_to_refresh/rive_pull_to_refresh-library.html">
     	<img src="https://img.shields.io/badge/Documentation-Library-blue" />
@@ -32,9 +32,9 @@
 		</thead>
 		<tbody>
 			<tr>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/planet_header.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/planet_floating.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/liquid.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_header.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_floating.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -50,9 +50,9 @@
 		</thead>
 		<tbody>
 			<tr>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/bow.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/space.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/lipid.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/bow.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/space.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/lipid.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
