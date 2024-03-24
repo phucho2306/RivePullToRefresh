@@ -13,13 +13,13 @@
 
 - A custom refresh indicator with Rive, Image, GIF...
 - Integrate rive quickly
-- Provides callbacks for the pull-to-refresh action:
-	value when the client pulls down, pulls up.
-	stop scrolling
+- Provides callbacks for the pull-to-refresh action:\
+	value when the client pulls down, pulls up.\
+	stop scrolling\
 	close header...
-- Customize
-	floating, header mode.
-	percent resize to activate refresh.
+- Customize\
+	floating, header mode.\
+	percent resize to activate refresh.\
 	Duration, Cuver...
 <div align="center">
 	<table>
