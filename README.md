@@ -35,7 +35,6 @@
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/planet_header.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/planet_floating.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/liquid.gif?raw=true" height = "500px"/></td>
-			
 			</tr>
 		</tbody>
 	</table>
