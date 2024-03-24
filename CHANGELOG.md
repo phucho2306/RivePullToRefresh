@@ -4,3 +4,5 @@
 * Up build number, remove unused package
 ## 1.0.2
 * Up build number, fix score
+## 1.0.2+1
+* Up build number, update documentation library, update example gif
