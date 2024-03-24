@@ -2,11 +2,11 @@
 
 <div align="center">
 	<a href="https://flutter.io">
-    	<img src="https://img.shields.io/badge/Platform-Flutter-blue"alt="Platform" />
-	<a href="https://github.com/phucho236/RivePullToRefresh/blob/master/LICENSE">
-    	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"alt="LICENSE" />
-	<a href="https://github.com/phucho236/RivePullToRefresh">
-    	<img src="https://img.shields.io/badge/HomePage-RivePullToRefresh-blue"alt="HomePage" />
+    	<img src="https://img.shields.io/badge/Platform-Flutter-blue"/>
+	<a href="https://github.com/phucho236/RivePullToRefresh/blob/main/LICENSE">
+    	<img src="https://img.shields.io/badge/MIT-LICENSE-orange"/>
+	<a href="https://pub.dev/documentation/rive_pull_to_refresh/latest/rive_pull_to_refresh/rive_pull_to_refresh-library.html">
+    	<img src="https://img.shields.io/badge/Documentation-Library-blue" />
 </div>
 		
 # Intro
@@ -14,29 +14,27 @@
 - A custom refresh indicator with Rive, Image, GIF...
 - Integrate rive quickly
 - Provides callbacks for the pull-to-refresh action:
-	+ value when the client pulls down, pulls up.
-	+ stop scrolling
-	+ close header
-	...
+	value when the client pulls down, pulls up.
+	stop scrolling
+	close header...
 - Customize
-	+ floating, header mode
-	+ percent resize to activate refresh
-	+ Duration, Cuver
-	+ ...
+	floating, header mode.
+	percent resize to activate refresh.
+	Duration, Cuver...
 <div align="center">
 	<table>
 		<thead>
 			<tr>
-			<th style="text-align:center"><code>planet</code></th>
+			<th style="text-align:center"><code>planet-header</code></th>
+			<th style="text-align:center"><code>planet-floating</code></th>
 			<th style="text-align:center"><code>liquid</code></th>
-			<th style="text-align:center"><code>bow</code></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/planet.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/liquid.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/bow.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_header.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_floating.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -45,15 +43,16 @@
 	<table>
 		<thead>
 			<tr>
+			<th style="text-align:center"><code>bow</code></th>
 			<th style="text-align:center"><code>space</code></th>
 			<th style="text-align:center"><code>lipid</code></th>
-			<th style="text-align:center"> </th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/space.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/master/assets/lipid.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/bow.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/space.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/lipid.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -67,7 +66,7 @@
 ### 1. Depend on it
 Add this to your package's `pubspec.yaml` file:
 ```yaml
-rive_pull_to_refresh: ^1.0.2
+rive_pull_to_refresh: ^1.0.2+1
 ```
 
 ### 2. Install it
