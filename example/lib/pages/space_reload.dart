@@ -35,7 +35,7 @@ class _MyAppState extends State<SpaceReload> {
         title: const Text('SpaceReload'),
       ),
       body: RivePullToRefresh(
-        timeResize: const Duration(milliseconds: 200),
+        timeResize: const Duration(milliseconds: 100),
         onInit: (controller) {
           _rivePullToRefreshController = controller;
         },
@@ -43,22 +43,21 @@ class _MyAppState extends State<SpaceReload> {
         //if the height of rive widget is larger try to upper this value
         kDragContainerExtentPercentage: 0.25,
         dragSizeFactorLimitMax: 1,
-        sizeFactorLimitMin: 1,
+        sizeFactorLimitMin: 0.9,
 
         percentActiveBump: 0.5,
-        style: RivePullToRefreshStyle.header,
-        curveMoveToPositionBumpStart: Curves.bounceOut,
+        openHeaderStyle: RiveOpenHeaderStyle.behide,
+        curveMoveToPositionBumpStart: Curves.linear,
         onMoveToPositionBumpStart: () {},
         bump: () async {
           //action start anim when stop Scrool
           _bump?.value = true;
 
           //time play anim
-          await Future.delayed(const Duration(seconds: 2));
+          await Future.delayed(const Duration(milliseconds: 2000));
 
           //close header
           await _rivePullToRefreshController!.close();
-
           //reset rive, design from rive.riv
 
           _bump?.value = false;
@@ -72,7 +71,7 @@ class _MyAppState extends State<SpaceReload> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        height: 200,
+        height: 230,
         riveWidget: RiveAnimation.asset(
           fit: BoxFit.fitWidth,
           'assets/space_reload.riv',

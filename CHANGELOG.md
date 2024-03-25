@@ -6,3 +6,5 @@
 * Up build number, fix score
 ## 1.0.2+1
 * Up build number, update documentation library, update example gif
+## 1.0.3
+* add RiveOpenHeaderStyle.moveDown refresh move from top down. RiveOpenHeaderStyle.behide refresh will show in center

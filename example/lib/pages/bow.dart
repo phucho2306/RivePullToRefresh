@@ -46,6 +46,7 @@ class _MyAppState extends State<Bow> {
         sizeFactorLimitMin: 1,
         percentActiveBump: 1,
         style: RivePullToRefreshStyle.header,
+        openHeaderStyle: RiveOpenHeaderStyle.behide,
         curveMoveToPositionBumpStart: Curves.bounceOut,
         onMoveToPositionBumpStart: () {},
         bump: () async {
