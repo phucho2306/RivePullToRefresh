@@ -43,7 +43,7 @@ class _MyAppState extends State<SpaceReload> {
         //if the height of rive widget is larger try to upper this value
         kDragContainerExtentPercentage: 0.25,
         dragSizeFactorLimitMax: 1,
-        sizeFactorLimitMin: 0.8,
+        sizeFactorLimitMin: 0.9,
 
         percentActiveBump: 0.5,
         openHeaderStyle: RiveOpenHeaderStyle.behide,
@@ -71,7 +71,7 @@ class _MyAppState extends State<SpaceReload> {
           //anim when pull
           _smiNumber?.value = number;
         },
-        height: 285,
+        height: 230,
         riveWidget: RiveAnimation.asset(
           fit: BoxFit.fitWidth,
           'assets/space_reload.riv',
