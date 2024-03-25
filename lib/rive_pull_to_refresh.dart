@@ -7,6 +7,8 @@ enum RivePullToRefreshState { accept, cancel }
 
 enum RivePullToRefreshStyle { header, floating }
 
+enum RiveOpenHeaderStyle { moveDown, behide }
+
 class RivePullToRefreshController {
   RivePullToRefreshController({
     Future<void> Function()? onRefreshI,
@@ -85,11 +87,13 @@ class RivePullToRefresh extends StatefulWidget {
       this.curveMoveToPositionBumpStart = Curves.linear,
       this.maxSizePaddingChildWhenPullDown = 0,
       this.background,
+      this.openHeaderStyle = RiveOpenHeaderStyle.moveDown,
       required this.height,
       Key? key})
       : super(key: key);
 
   final Widget child;
+
   final Widget? background;
 
   ///[maxSizePaddingChildWhenPullDown] only avaible if RivePullToRefreshStyle is floating.
@@ -134,6 +138,11 @@ class RivePullToRefresh extends StatefulWidget {
 
   ///[height] of refresh widget
   final double height;
+
+  ///[openHeaderStyle] default is moveDown.
+  ///[RiveOpenHeaderStyle].moveDown. refresh widget will move on top to down
+  ///[RiveOpenHeaderStyle].behide. refresh widget will open on center header
+  final RiveOpenHeaderStyle? openHeaderStyle;
   @override
   State<RivePullToRefresh> createState() => _RivePullToRefreshState();
 }
@@ -143,6 +152,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   late Animation<double> _positionFactor;
   late Animatable<double> _kDragSizeFactorLimitTween;
   late RivePullToRefreshController _controller;
+
   Completer? completer;
   @override
   void initState() {
@@ -152,7 +162,9 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
       log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
     }
-
+    if (widget.openHeaderStyle == RiveOpenHeaderStyle.behide) {
+      _axisAlignment = 0.0;
+    }
     _positionController = AnimationController(vsync: this);
     _positionFactor = _positionController.drive(_kDragSizeFactorLimitTween);
     _controller = RivePullToRefreshController(
@@ -224,6 +236,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
   }
 
   bool _shouldStart = true;
+
+  double _axisAlignment = 1.0;
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
@@ -249,8 +263,9 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
         child: widget.child,
       ),
     );
+
     Widget riveWidget = SizeTransition(
-      axisAlignment: _controller._rivePullToRefreshState == null ? 1.0 : -1.0,
+      axisAlignment: _controller._rivePullToRefreshState == null ? _axisAlignment : -1.0,
       sizeFactor: _positionFactor, // this is what brings it down
       child: AnimatedBuilder(
         animation: _positionController,
@@ -268,7 +283,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProvid
               : Column(
                   children: [
                     SizeTransition(
-                      axisAlignment: _controller._rivePullToRefreshState == null ? 1.0 : -1.0,
+                      axisAlignment: _controller._rivePullToRefreshState == null ? _axisAlignment : -1.0,
                       sizeFactor: _positionFactor, // this is what brings it down
                       child: AnimatedBuilder(
                         animation: _positionController,

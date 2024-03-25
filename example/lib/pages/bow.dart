@@ -46,6 +46,7 @@ class _MyAppState extends State<Bow> {
         sizeFactorLimitMin: 1,
         percentActiveBump: 1,
         style: RivePullToRefreshStyle.header,
+        openHeaderStyle: RiveOpenHeaderStyle.behide,
         curveMoveToPositionBumpStart: Curves.bounceOut,
         onMoveToPositionBumpStart: () {},
         bump: () async {
@@ -102,8 +103,7 @@ class _MyAppState extends State<Bow> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, "numberSimulation");
+    final controller = StateMachineController.fromArtboard(artboard, "numberSimulation");
     artboard.addController(controller!);
     _bump = controller.findSMI("advance") as SMITrigger;
     _restart = controller.findSMI("restart") as SMITrigger;

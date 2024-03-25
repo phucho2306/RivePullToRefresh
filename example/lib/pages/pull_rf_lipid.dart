@@ -49,6 +49,7 @@ class _MyAppState extends State<PullRflipid> {
 
         percentActiveBump: 0.5,
         style: RivePullToRefreshStyle.header,
+        openHeaderStyle: RiveOpenHeaderStyle.behide,
         curveMoveToPositionBumpStart: Curves.bounceOut,
         onMoveToPositionBumpStart: () {},
         bump: () async {

@@ -46,7 +46,7 @@ class _MyAppState extends State<SpaceReload> {
         sizeFactorLimitMin: 1,
 
         percentActiveBump: 0.5,
-        style: RivePullToRefreshStyle.header,
+        openHeaderStyle: RiveOpenHeaderStyle.behide,
         curveMoveToPositionBumpStart: Curves.bounceOut,
         onMoveToPositionBumpStart: () {},
         bump: () async {
