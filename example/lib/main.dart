@@ -3,6 +3,7 @@ import 'package:rive_pull_to_refresh_example/pages/bow.dart';
 import 'package:rive_pull_to_refresh_example/pages/gif.dart';
 import 'package:rive_pull_to_refresh_example/pages/image.dart';
 import 'package:rive_pull_to_refresh_example/pages/liquid.dart';
+import 'package:rive_pull_to_refresh_example/pages/liquid_v1.dart';
 import 'package:rive_pull_to_refresh_example/pages/planet.dart';
 import 'package:rive_pull_to_refresh_example/pages/pull_rf_lipid.dart';
 import 'package:rive_pull_to_refresh_example/pages/space_reload.dart';
@@ -28,6 +29,9 @@ class _MyAppState extends State<MyApp> {
         },
         Liquid.route: (BuildContext context) {
           return const Liquid();
+        },
+        LiquidV1.route: (BuildContext context) {
+          return const LiquidV1();
         },
         MainPage.route: (BuildContext context) {
           return const MainPage();
@@ -79,6 +83,13 @@ class _MainPageState extends State<MainPage> {
               onPress: () => Navigator.pushNamed(
                 context,
                 Liquid.route,
+              ),
+            ),
+            AppButton(
+              title: "LipuidV1",
+              onPress: () => Navigator.pushNamed(
+                context,
+                LiquidV1.route,
               ),
             ),
             AppButton(

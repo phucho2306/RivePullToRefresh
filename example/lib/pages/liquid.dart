@@ -69,7 +69,7 @@ class _MyAppState extends State<Liquid> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
           _smiNumber?.value = number;
         },
@@ -103,8 +103,7 @@ class _MyAppState extends State<Liquid> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, "State Machine 1");
+    final controller = StateMachineController.fromArtboard(artboard, "State Machine 1");
     artboard.addController(controller!);
 
     _bump = controller.findInput<bool>("play") as SMIBool;

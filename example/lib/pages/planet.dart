@@ -23,8 +23,7 @@ class _MyAppState extends State<Planet> {
     super.dispose();
   }
 
-  TextEditingController textEditingController =
-      TextEditingController(text: "50");
+  TextEditingController textEditingController = TextEditingController(text: "50");
   SMIBool? _bump;
   SMINumber? _smiNumber;
   final ScrollController _controller = ScrollController();
@@ -86,9 +85,7 @@ class _MyAppState extends State<Planet> {
         kDragContainerExtentPercentage: 0.25,
 
         percentActiveBump: 0.5,
-        style: isFloatStyle
-            ? RivePullToRefreshStyle.floating
-            : RivePullToRefreshStyle.header,
+        style: isFloatStyle ? RivePullToRefreshStyle.floating : RivePullToRefreshStyle.header,
         curveMoveToPositionBumpStart: Curves.bounceOut,
         onMoveToPositionBumpStart: () {
           _bump?.value = true;
@@ -112,7 +109,7 @@ class _MyAppState extends State<Planet> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
           _smiNumber?.value = number;
         },
@@ -147,8 +144,7 @@ class _MyAppState extends State<Planet> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, "State Machine");
+    final controller = StateMachineController.fromArtboard(artboard, "State Machine");
     artboard.addController(controller!);
 
     _bump = controller.findInput<bool>("Active") as SMIBool;

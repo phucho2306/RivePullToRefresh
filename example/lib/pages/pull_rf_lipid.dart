@@ -71,7 +71,7 @@ class _MyAppState extends State<PullRflipid> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
           _smiNumber?.value = number;
         },

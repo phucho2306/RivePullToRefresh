@@ -71,9 +71,12 @@ class RivePullToRefreshController {
 class RivePullToRefresh extends StatefulWidget {
   const RivePullToRefresh(
       {required this.onRefresh,
+      required this.onInit,
       required this.riveWidget,
       required this.child,
-      this.callBacknumber,
+      required this.height,
+      this.dxOfPointer,
+      this.callBackNumber,
       this.bump,
       this.style = RivePullToRefreshStyle.header,
       this.controller,
@@ -81,20 +84,15 @@ class RivePullToRefresh extends StatefulWidget {
       this.dragSizeFactorLimitMax = 1.5,
       this.sizeFactorLimitMin = 1 / 1.5,
       this.kDragContainerExtentPercentage = 0.25,
-      required this.onInit,
       this.timeResize = const Duration(milliseconds: 200),
       this.onMoveToPositionBumpStart,
       this.curveMoveToPositionBumpStart = Curves.linear,
       this.maxSizePaddingChildWhenPullDown = 0,
-      this.background,
       this.openHeaderStyle = RiveOpenHeaderStyle.moveDown,
-      required this.height,
       Key? key})
       : super(key: key);
 
   final Widget child;
-
-  final Widget? background;
 
   ///[maxSizePaddingChildWhenPullDown] only avaible if RivePullToRefreshStyle is floating.
   final double maxSizePaddingChildWhenPullDown;
@@ -118,8 +116,8 @@ class RivePullToRefresh extends StatefulWidget {
   ///[bump] call when start animation loading
   final Function()? bump;
 
-  ///[callBacknumber] value return range 0-100 when client scrool
-  final Function(double)? callBacknumber;
+  ///[callBackNumber] dy percentage of pointer on screen. value return range 0-100 when client scrool  scrool down or up
+  final Function(double)? callBackNumber;
   final Widget riveWidget;
   final Future<void> Function() onRefresh;
 
@@ -143,23 +141,24 @@ class RivePullToRefresh extends StatefulWidget {
   ///[RiveOpenHeaderStyle].moveDown. refresh widget will move on top to down
   ///[RiveOpenHeaderStyle].behide. refresh widget will open on center header
   final RiveOpenHeaderStyle? openHeaderStyle;
+
+  ///[dxOfPointer] dx percentage of pointer on screen. value return range 0-100 when client scrool left or right
+  final Function(double)? dxOfPointer;
   @override
   State<RivePullToRefresh> createState() => _RivePullToRefreshState();
 }
 
-class _RivePullToRefreshState extends State<RivePullToRefresh>
-    with TickerProviderStateMixin<RivePullToRefresh> {
+class _RivePullToRefreshState extends State<RivePullToRefresh> with TickerProviderStateMixin<RivePullToRefresh> {
   late AnimationController _positionController;
   late Animation<double> _positionFactor;
   late Animatable<double> _kDragSizeFactorLimitTween;
   late RivePullToRefreshController _controller;
-
+  late double width;
   Completer? completer;
   @override
   void initState() {
     super.initState();
-    _kDragSizeFactorLimitTween =
-        Tween<double>(begin: 0.0, end: widget.dragSizeFactorLimitMax);
+    _kDragSizeFactorLimitTween = Tween<double>(begin: 0.0, end: widget.dragSizeFactorLimitMax);
     if (widget.percentActiveBump <= 0.0 || widget.percentActiveBump > 1.0) {
       log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
@@ -170,9 +169,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     _positionController = AnimationController(vsync: this);
     _positionFactor = _positionController.drive(_kDragSizeFactorLimitTween);
     _controller = RivePullToRefreshController(
-        onRefreshI: widget.onRefresh,
-        controller: widget.controller,
-        positionController: _positionController);
+        onRefreshI: widget.onRefresh, controller: widget.controller, positionController: _positionController);
     widget.onInit(_controller);
   }
 
@@ -180,45 +177,42 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if (completer != null) {
       return false;
     }
-    if (notification is ScrollStartNotification &&
-        notification.metrics.pixels == 0) {
+    if (notification is ScrollStartNotification && notification.metrics.pixels == 0) {
       _shouldStart = true;
     }
-    if (notification.metrics.pixels > 0 &&
-        _controller._rivePullToRefreshState == null) {
+    if (notification.metrics.pixels > 0 && _controller._rivePullToRefreshState == null) {
       _shouldStart = false;
     }
-    if ((notification is ScrollUpdateNotification ||
-            notification is OverscrollNotification) &&
+    if ((notification is ScrollUpdateNotification || notification is OverscrollNotification) &&
         _controller._rivePullToRefreshState != null &&
         _shouldStart == true) {
       // calculator position here
       if (notification is ScrollUpdateNotification) {
-        _controller._dragOffset =
-            _controller._dragOffset + notification.scrollDelta!;
+        if (notification.dragDetails != null)
+          widget.dxOfPointer?.call((notification.dragDetails!.localPosition.dx / width) * 100);
 
+        _controller._dragOffset = _controller._dragOffset + notification.scrollDelta!;
         //When the user pulls up a little, it is still a accepted
         if (_positionController.value <= 0.95) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
         }
       }
       if (notification is OverscrollNotification) {
-        _controller._dragOffset =
-            _controller._dragOffset + notification.overscroll;
+        if (notification.dragDetails != null)
+          widget.dxOfPointer?.call((notification.dragDetails!.localPosition.dx / width) * 100);
+        _controller._dragOffset = _controller._dragOffset + notification.overscroll;
         if (_positionController.value >= (widget.percentActiveBump)) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.accept;
         }
       }
-      double newValue = (_controller._dragOffset) /
-          (notification.metrics.viewportDimension *
-              widget.kDragContainerExtentPercentage);
+      double newValue =
+          (_controller._dragOffset) / (notification.metrics.viewportDimension * widget.kDragContainerExtentPercentage);
       if (_controller._oldValue != null) {
-        var value =
-            _positionController.value + (_controller._oldValue! - newValue);
+        var value = _positionController.value + (_controller._oldValue! - newValue);
 
         _positionController.value = clampDouble(value, 0.0, 1.0);
 
-        widget.callBacknumber?.call(_positionController.value * 100);
+        widget.callBackNumber?.call(_positionController.value * 100);
       }
 
       _controller._oldValue = newValue;
@@ -237,8 +231,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if (_controller._rivePullToRefreshState == RivePullToRefreshState.accept) {
       widget.onMoveToPositionBumpStart?.call();
       await _positionController.animateTo(widget.sizeFactorLimitMin,
-          duration: widget.timeResize,
-          curve: widget.curveMoveToPositionBumpStart!);
+          duration: widget.timeResize, curve: widget.curveMoveToPositionBumpStart!);
       await widget.bump?.call();
     } else {
       await _controller._close(jumpTo: jumpTo);
@@ -252,6 +245,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
   double _axisAlignment = 1.0;
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
     assert(debugCheckHasMaterialLocalizations(context));
     final Widget child = NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
@@ -265,8 +259,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           } else {
             if (_controller._rivePullToRefreshState == null) {
               // action first pull Overscroll to active refresh
-              _controller._rivePullToRefreshState =
-                  RivePullToRefreshState.cancel;
+              _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
               return true;
             }
           }
@@ -278,8 +271,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     );
 
     Widget riveWidget = SizeTransition(
-      axisAlignment:
-          _controller._rivePullToRefreshState == null ? _axisAlignment : -1.0,
+      axisAlignment: _controller._rivePullToRefreshState == null ? _axisAlignment : -1.0,
       sizeFactor: _positionFactor, // this is what brings it down
       child: AnimatedBuilder(
         animation: _positionController,
@@ -297,11 +289,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
               : Column(
                   children: [
                     SizeTransition(
-                      axisAlignment: _controller._rivePullToRefreshState == null
-                          ? _axisAlignment
-                          : -1.0,
-                      sizeFactor:
-                          _positionFactor, // this is what brings it down
+                      axisAlignment: _controller._rivePullToRefreshState == null ? _axisAlignment : -1.0,
+                      sizeFactor: _positionFactor, // this is what brings it down
                       child: AnimatedBuilder(
                         animation: _positionController,
                         builder: (BuildContext context, Widget? _) {

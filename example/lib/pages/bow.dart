@@ -69,7 +69,7 @@ class _MyAppState extends State<Bow> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
           _smiNumber?.value = number;
         },
@@ -103,8 +103,7 @@ class _MyAppState extends State<Bow> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, "numberSimulation");
+    final controller = StateMachineController.fromArtboard(artboard, "numberSimulation");
     artboard.addController(controller!);
     _bump = controller.findSMI("advance") as SMITrigger;
     _restart = controller.findSMI("restart") as SMITrigger;

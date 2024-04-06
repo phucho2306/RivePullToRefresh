@@ -67,13 +67,14 @@ class _MyAppState extends State<SpaceReload> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
           _smiNumber?.value = number;
         },
         height: 230,
         riveWidget: RiveAnimation.asset(
-          fit: BoxFit.fitWidth,
+          alignment: Alignment.center,
+          fit: BoxFit.cover,
           'assets/space_reload.riv',
           onInit: _onRiveInit,
         ),

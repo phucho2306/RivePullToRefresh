@@ -58,7 +58,7 @@ class _MyAppState extends State<Gif> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
         },
         height: size,

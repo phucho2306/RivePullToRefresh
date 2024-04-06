@@ -58,7 +58,7 @@ class _MyAppState extends State<ImageR> {
 
           //TimeStartAnim
         },
-        callBacknumber: (number) {
+        callBackNumber: (number) {
           //anim when pull
         },
         height: size,
@@ -72,9 +72,7 @@ class _MyAppState extends State<ImageR> {
             ),
             const Align(
               alignment: Alignment.center,
-              child: Padding(
-                  padding: EdgeInsets.only(top: 45),
-                  child: RefreshProgressIndicator()),
+              child: Padding(padding: EdgeInsets.only(top: 45), child: RefreshProgressIndicator()),
             ),
           ],
         ),
