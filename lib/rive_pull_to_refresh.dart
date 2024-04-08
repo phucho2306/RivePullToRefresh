@@ -195,9 +195,10 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
         _shouldStart == true) {
       // calculator position here
       if (notification is ScrollUpdateNotification) {
-        if (notification.dragDetails != null)
+        if (notification.dragDetails != null) {
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
+        }
 
         _controller._dragOffset =
             _controller._dragOffset + notification.scrollDelta!;
@@ -207,9 +208,10 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
         }
       }
       if (notification is OverscrollNotification) {
-        if (notification.dragDetails != null)
+        if (notification.dragDetails != null) {
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
+        }
         _controller._dragOffset =
             _controller._dragOffset + notification.overscroll;
         if (_positionController.value >= (widget.percentActiveBump)) {
