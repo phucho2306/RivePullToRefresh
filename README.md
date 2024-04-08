@@ -57,16 +57,32 @@
 		</tbody>
 	</table>
 </div>
+<div align="center">
+	<table>
+		<thead>
+			<tr>
+			<th style="text-align:center"><code>liquid_v1</code></th>
+			<th style="text-align:center"><code>space</code></th>
+			<th style="text-align:center"><code>lipid</code></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid_v1.gif?raw=true" height = "500px"/></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 # Wanrning
 - You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from the Flutter side).
 
-# Flutter Side
+# Flutter
 
 ### 1. Depend on it
 Add this to your package's `pubspec.yaml` file:
 ```yaml
-rive_pull_to_refresh: ^1.0.3
+rive_pull_to_refresh: ^1.0.3+1
 ```
 
 ### 2. Install it
@@ -88,7 +104,7 @@ flutter pub get
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 ```
 
-# Rive Side
+# Rive
 Check editor Rive to know State Machine and Inputs [here](https://rive.app/community/8964-17117-pull-to-refresh)
 # Example use rive file from:
 

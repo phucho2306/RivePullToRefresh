@@ -79,14 +79,14 @@ class _MainPageState extends State<MainPage> {
               onPress: () => Navigator.pushNamed(context, Planet.route),
             ),
             AppButton(
-              title: "Lipuid",
+              title: "Liquid",
               onPress: () => Navigator.pushNamed(
                 context,
                 Liquid.route,
               ),
             ),
             AppButton(
-              title: "LipuidV1",
+              title: "LiquidV1",
               onPress: () => Navigator.pushNamed(
                 context,
                 LiquidV1.route,

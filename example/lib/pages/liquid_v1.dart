@@ -107,7 +107,8 @@ class _MyAppState extends State<LiquidV1> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, "StateMachine");
+    final controller =
+        StateMachineController.fromArtboard(artboard, "StateMachine");
     artboard.addController(controller!);
     _bump = controller.findSMI("bump") as SMITrigger;
     _restart = controller.findSMI("restart") as SMITrigger;

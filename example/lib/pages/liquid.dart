@@ -103,7 +103,8 @@ class _MyAppState extends State<Liquid> {
   }
 
   void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, "State Machine 1");
+    final controller =
+        StateMachineController.fromArtboard(artboard, "State Machine 1");
     artboard.addController(controller!);
 
     _bump = controller.findInput<bool>("play") as SMIBool;
