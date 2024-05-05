@@ -103,7 +103,7 @@ import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 ```
 
 # Rive
-Check editor Rive to know State Machine and Inputs [here](https://rive.app/community/8964-17117-pull-to-refresh)
+Check editor Rive to know State Machine and Inputs [here](https://rive.app/community/files/8964-pull-to-refresh/)
 # Example use rive file from:
 
 [JcToon](https://rive.app/@JcToon/) : [community](https://rive.app/community/3146-6725-pull-to-refresh/)\
