@@ -30,6 +30,7 @@ class _MyAppState extends State<Planet> {
   final ScrollController _controller = ScrollController();
   RivePullToRefreshController? _rivePullToRefreshController;
   bool isFloatStyle = false;
+  bool isBottom = false;
   double paddingTop = 50;
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class _MyAppState extends State<Planet> {
         home: Scaffold(
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -70,13 +72,15 @@ class _MyAppState extends State<Planet> {
                   ),
                 ),
               ],
-            )
+            ),
+          Text("Bottom side: $isBottom"),
         ],
       ),
       appBar: AppBar(
         title: const Text('Planet'),
       ),
       body: RivePullToRefresh(
+        side: isBottom ? Side.bottom : Side.top,
         maxSizePaddingChildWhenPullDown: paddingTop,
         timeResize: const Duration(seconds: 1),
         onInit: (controller) {
