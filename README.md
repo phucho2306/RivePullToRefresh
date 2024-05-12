@@ -103,7 +103,7 @@ flutter pub get
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 ```
 ### 4. Physics
-BouncingScrollPhysics(physic default of ios) makes the package work not correctly so please set the physic of Scrolling widgets
+BouncingScrollPhysics(physics default of ios) makes the package work not correctly so please set the physics of Scrolling widgets
 ```dart
 ListView.builder(
           physics: const ClampingScrollPhysics(
