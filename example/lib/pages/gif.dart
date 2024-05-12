@@ -23,7 +23,7 @@ class _MyAppState extends State<Gif> {
 
   double size = 200;
   RivePullToRefreshController? _rivePullToRefreshController;
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -85,6 +85,8 @@ class _MyAppState extends State<Gif> {
         controller: _controller,
         onRefresh: () async {},
         child: ListView.builder(
+          physics: const ClampingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           controller: _controller,
           itemCount: 10,
           itemBuilder: (context, index) {

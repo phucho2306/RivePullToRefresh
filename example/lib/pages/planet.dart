@@ -131,6 +131,8 @@ class _MyAppState extends State<Planet> {
         controller: _controller,
         onRefresh: () async {},
         child: ListView.builder(
+          physics: const ClampingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           controller: _controller,
           itemCount: 10,
           itemBuilder: (context, index) {

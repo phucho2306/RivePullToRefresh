@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -203,6 +204,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if (completer != null) {
       return false;
     }
+
     if (notification is ScrollStartNotification &&
         (widget.side == Side.top
             ? notification.metrics.pixels == 0
@@ -217,6 +219,13 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
         _controller._rivePullToRefreshState == null) {
       _shouldStart = false;
     }
+    if (Platform.isIOS && notification is OverscrollNotification) {
+      if (!(_controller._rivePullToRefreshState == null && !_shouldStart)) {
+        // action first pull Overscroll to active refresh
+        _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
+      }
+    }
+
     if ((notification is ScrollUpdateNotification ||
             notification is OverscrollNotification) &&
         _controller._rivePullToRefreshState != null &&
@@ -262,6 +271,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
 
         widget.callBackNumber?.call(_positionController.value * 100);
       }
+
       _controller._oldValue = newValue;
     } else if (notification is ScrollEndNotification) {
       if (_controller._rivePullToRefreshState == null) {
@@ -298,6 +308,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     final Widget child = NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: NotificationListener<OverscrollIndicatorNotification>(
+        //only suport android
         onNotification: (notification) {
           if ((notification.depth != 0 ||
               (widget.side == Side.top
