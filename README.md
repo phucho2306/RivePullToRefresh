@@ -14,7 +14,7 @@
 - A custom refresh indicator with Rive, Image, GIF...
 - Integrate rive quickly
 - Provides callbacks for the pull-to-refresh action:\
-	value when the client pulls down, pulls up.\
+	value when the client pulls down or pulls up.\
 	stop scrolling\
 	close header...
 - Customize\
@@ -74,7 +74,7 @@
 </div>
 
 # Wanrning
-- You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from the Flutter side).
+- You must know a little bit of rive. If not you can use the existing rive files in the example(can't edit color from Flutter).
 
 # Flutter
 
@@ -102,7 +102,14 @@ flutter pub get
 ```dart
 import 'package:rive_pull_to_refresh/rive_pull_to_refresh.dart';
 ```
-
+### 4. Physics
+BouncingScrollPhysics(physic default of ios) makes the package work not correctly so please set the physic of Scrolling widgets
+```dart
+ListView.builder(
+          physics: const ClampingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+...
+```
 # Rive
 Check editor Rive to know State Machine and Inputs [here](https://rive.app/community/files/8964-pull-to-refresh/)
 # Example use rive file from:
