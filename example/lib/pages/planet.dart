@@ -30,7 +30,7 @@ class _MyAppState extends State<Planet> {
   final ScrollController _controller = ScrollController();
   RivePullToRefreshController? _rivePullToRefreshController;
   bool isFloatStyle = false;
-  bool isBottom = false;
+  bool isBottom = true;
   double paddingTop = 50;
   @override
   Widget build(BuildContext context) {
