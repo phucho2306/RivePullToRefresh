@@ -236,9 +236,13 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
         }
-
-        _controller._dragOffset =
-            _controller._dragOffset - notification.scrollDelta!;
+        if (_side == Side.top) {
+          _controller._dragOffset =
+              _controller._dragOffset + notification.scrollDelta!;
+        } else {
+          _controller._dragOffset =
+              _controller._dragOffset - notification.scrollDelta!;
+        }
         //When the user pulls up a little, it is still a accepted
         if (_positionController.value <= 0.95) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
@@ -301,10 +305,12 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
   bool _shouldStart = true;
 
   double _axisAlignment = 1.0;
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     assert(debugCheckHasMaterialLocalizations(context));
+
     final Widget child = NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: NotificationListener<OverscrollIndicatorNotification>(
