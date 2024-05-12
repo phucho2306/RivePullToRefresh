@@ -27,14 +27,14 @@
 			<tr>
 			<th style="text-align:center"><code>planet-header</code></th>
 			<th style="text-align:center"><code>planet-floating</code></th>
-			<th style="text-align:center"><code>liquid</code></th>
+			<th style="text-align:center"><code>planet-bottom</code></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_header.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_floating.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid.gif?raw=true" height = "500px"/></td>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/planet_bottom.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -50,9 +50,9 @@
 		</thead>
 		<tbody>
 			<tr>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/bow.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/space.gif?raw=true" height = "500px"/></td>
-			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/lipid.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -66,6 +66,7 @@
 		</thead>
 		<tbody>
 			<tr>
+			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/lipid.gif?raw=true" height = "500px"/></td>
 			<td style="text-align:center"><img src="https://github.com/phucho236/RivePullToRefresh/blob/main/assets/liquid_v1.gif?raw=true" height = "500px"/></td>
 			</tr>
 		</tbody>
@@ -80,7 +81,7 @@
 ### 1. Depend on it
 Add this to your package's `pubspec.yaml` file:
 ```yaml
-rive_pull_to_refresh: ^1.0.3+2
+rive_pull_to_refresh: ^1.0.3+3
 ```
 
 ### 2. Install it

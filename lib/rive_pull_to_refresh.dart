@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -9,15 +10,19 @@ enum RivePullToRefreshStyle { header, floating }
 
 enum RiveOpenHeaderStyle { moveDown, behide }
 
+enum Side { top, bottom }
+
 class RivePullToRefreshController {
   RivePullToRefreshController({
     Future<void> Function()? onRefreshI,
     ScrollController? controller,
     AnimationController? positionController,
+    Side? side,
   }) : super() {
     onRefresh = onRefreshI;
     _controller = controller;
     _positionController = positionController;
+    _side = side;
   }
   RivePullToRefreshState? _rivePullToRefreshState;
 
@@ -32,6 +37,8 @@ class RivePullToRefreshController {
 
   AnimationController? _positionController;
 
+  Side? _side;
+
   ///call [close] when you want hide widget refresh, curve is animation close
   Future close({
     Duration? durationClose = const Duration(
@@ -39,13 +46,15 @@ class RivePullToRefreshController {
     ),
     Curve? curve,
   }) async {
-    await _close(jumpTo: false, durationClose: durationClose, curve: curve);
+    await _close(
+        jumpTo: false, durationClose: durationClose, curve: curve, side: _side);
   }
 
   Future _close({
     bool jumpTo = false,
     Duration? durationClose = const Duration(milliseconds: 200),
     Curve? curve,
+    Side? side,
   }) async {
     await _positionController?.animateTo(
       0.0,
@@ -56,7 +65,9 @@ class RivePullToRefreshController {
     _dragOffset = 0.0;
     _rivePullToRefreshState = null;
     if (jumpTo) {
-      _controller?.jumpTo(0);
+      if (side == Side.top) {
+        _controller?.jumpTo(0);
+      }
     }
   }
 
@@ -89,10 +100,14 @@ class RivePullToRefresh extends StatefulWidget {
       this.curveMoveToPositionBumpStart = Curves.linear,
       this.maxSizePaddingChildWhenPullDown = 0,
       this.openHeaderStyle = RiveOpenHeaderStyle.moveDown,
+      this.side = Side.top,
       Key? key})
       : super(key: key);
 
   final Widget child;
+
+  ///[_side] suport top or bottom rive widget show, default is top
+  final Side side;
 
   ///[maxSizePaddingChildWhenPullDown] only avaible if RivePullToRefreshStyle is floating.
   final double maxSizePaddingChildWhenPullDown;
@@ -156,14 +171,21 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
   late RivePullToRefreshController _controller;
   late double width;
   Completer? completer;
+  late Side _side;
   @override
   void initState() {
     super.initState();
+    _side = widget.side;
+
     _kDragSizeFactorLimitTween =
         Tween<double>(begin: 0.0, end: widget.dragSizeFactorLimitMax);
     if (widget.percentActiveBump <= 0.0 || widget.percentActiveBump > 1.0) {
       log("[percentActiveBump] not correct. this value range from 0 to 100");
       throw Error();
+    }
+
+    if (_side == Side.bottom) {
+      _axisAlignment = -1.0;
     }
     if (widget.openHeaderStyle == RiveOpenHeaderStyle.behide) {
       _axisAlignment = 0.0;
@@ -173,7 +195,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     _controller = RivePullToRefreshController(
         onRefreshI: widget.onRefresh,
         controller: widget.controller,
-        positionController: _positionController);
+        positionController: _positionController,
+        side: _side);
     widget.onInit(_controller);
   }
 
@@ -181,14 +204,28 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if (completer != null) {
       return false;
     }
+
     if (notification is ScrollStartNotification &&
-        notification.metrics.pixels == 0) {
+        (widget.side == Side.top
+            ? notification.metrics.pixels == 0
+            : notification.metrics.pixels ==
+                notification.metrics.maxScrollExtent)) {
       _shouldStart = true;
     }
-    if (notification.metrics.pixels > 0 &&
+    if ((widget.side == Side.top
+            ? notification.metrics.pixels > 0
+            : notification.metrics.pixels <
+                notification.metrics.maxScrollExtent) &&
         _controller._rivePullToRefreshState == null) {
       _shouldStart = false;
     }
+    if (Platform.isIOS && notification is OverscrollNotification) {
+      if (!(_controller._rivePullToRefreshState == null && !_shouldStart)) {
+        // action first pull Overscroll to active refresh
+        _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
+      }
+    }
+
     if ((notification is ScrollUpdateNotification ||
             notification is OverscrollNotification) &&
         _controller._rivePullToRefreshState != null &&
@@ -199,9 +236,13 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
         }
-
-        _controller._dragOffset =
-            _controller._dragOffset + notification.scrollDelta!;
+        if (_side == Side.top) {
+          _controller._dragOffset =
+              _controller._dragOffset + notification.scrollDelta!;
+        } else {
+          _controller._dragOffset =
+              _controller._dragOffset - notification.scrollDelta!;
+        }
         //When the user pulls up a little, it is still a accepted
         if (_positionController.value <= 0.95) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
@@ -212,8 +253,13 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
         }
-        _controller._dragOffset =
-            _controller._dragOffset + notification.overscroll;
+        if (_side == Side.top) {
+          _controller._dragOffset =
+              _controller._dragOffset + notification.overscroll;
+        } else {
+          _controller._dragOffset =
+              _controller._dragOffset - notification.overscroll;
+        }
         if (_positionController.value >= (widget.percentActiveBump)) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.accept;
         }
@@ -222,10 +268,10 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           (notification.metrics.viewportDimension *
               widget.kDragContainerExtentPercentage);
       if (_controller._oldValue != null) {
-        var value =
+        double value =
             _positionController.value + (_controller._oldValue! - newValue);
 
-        _positionController.value = clampDouble(value, 0.0, 1.0);
+        _positionController.value = clampDouble(value, 0, 1);
 
         widget.callBackNumber?.call(_positionController.value * 100);
       }
@@ -259,15 +305,21 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
   bool _shouldStart = true;
 
   double _axisAlignment = 1.0;
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     assert(debugCheckHasMaterialLocalizations(context));
+
     final Widget child = NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: NotificationListener<OverscrollIndicatorNotification>(
+        //only suport android
         onNotification: (notification) {
-          if (notification.depth != 0 || !notification.leading) {
+          if ((notification.depth != 0 ||
+              (widget.side == Side.top
+                  ? !notification.leading
+                  : notification.leading))) {
             return false;
           }
           if (_controller._rivePullToRefreshState != null && _shouldStart) {
@@ -306,40 +358,70 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
               ? child
               : Column(
                   children: [
-                    SizeTransition(
-                      axisAlignment: _controller._rivePullToRefreshState == null
-                          ? _axisAlignment
-                          : -1.0,
-                      sizeFactor:
-                          _positionFactor, // this is what brings it down
-                      child: AnimatedBuilder(
-                        animation: _positionController,
-                        builder: (BuildContext context, Widget? _) {
-                          return SizedBox(
-                            height: widget.maxSizePaddingChildWhenPullDown,
-                          );
-                        },
+                    if (_side == Side.top)
+                      SizeTransition(
+                        axisAlignment:
+                            _controller._rivePullToRefreshState == null
+                                ? _axisAlignment
+                                : -1.0,
+                        sizeFactor:
+                            _positionFactor, // this is what brings it down
+                        child: AnimatedBuilder(
+                          animation: _positionController,
+                          builder: (BuildContext context, Widget? _) {
+                            return SizedBox(
+                              height: widget.maxSizePaddingChildWhenPullDown,
+                            );
+                          },
+                        ),
                       ),
-                    ),
                     Expanded(child: child),
+                    if (_side == Side.bottom)
+                      SizeTransition(
+                        axisAlignment:
+                            _controller._rivePullToRefreshState == null
+                                ? _axisAlignment
+                                : -1.0,
+                        sizeFactor:
+                            _positionFactor, // this is what brings it down
+                        child: AnimatedBuilder(
+                          animation: _positionController,
+                          builder: (BuildContext context, Widget? _) {
+                            return SizedBox(
+                              height: widget.maxSizePaddingChildWhenPullDown,
+                            );
+                          },
+                        ),
+                      ),
                   ],
                 ),
           Opacity(
             opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
-            child: riveWidget,
+            child: Align(
+              alignment: _side == Side.top
+                  ? Alignment.topCenter
+                  : Alignment.bottomCenter,
+              child: riveWidget,
+            ),
           ),
         ],
       );
     }
     return Column(
       children: [
-        Opacity(
-          opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
-          child: riveWidget,
-        ),
+        if (_side == Side.top)
+          Opacity(
+            opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
+            child: riveWidget,
+          ),
         Expanded(
           child: child,
-        )
+        ),
+        if (_side == Side.bottom)
+          Opacity(
+            opacity: _controller._rivePullToRefreshState != null ? 0 : 1,
+            child: riveWidget,
+          ),
       ],
     );
   }
