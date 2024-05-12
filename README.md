@@ -43,9 +43,9 @@
 	<table>
 		<thead>
 			<tr>
+			<th style="text-align:center"><code>liquid</code></th>
 			<th style="text-align:center"><code>bow</code></th>
 			<th style="text-align:center"><code>space</code></th>
-			<th style="text-align:center"><code>lipid</code></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,6 +61,7 @@
 	<table>
 		<thead>
 			<tr>
+			<th style="text-align:center"><code>lipid</code></th>
 			<th style="text-align:center"><code>liquid_v1</code></th>
 			</tr>
 		</thead>
