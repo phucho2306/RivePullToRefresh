@@ -255,8 +255,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           (notification.metrics.viewportDimension *
               widget.kDragContainerExtentPercentage);
       if (_controller._oldValue != null) {
-        double value;
-        value = _positionController.value + (_controller._oldValue! - newValue);
+        double value =
+            _positionController.value + (_controller._oldValue! - newValue);
 
         _positionController.value = clampDouble(value, 0, 1);
 
