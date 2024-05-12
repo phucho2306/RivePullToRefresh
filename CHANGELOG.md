@@ -1,3 +1,5 @@
+## 1.0.3+4
+* update readme
 ## 1.0.3+3
 * suport bottom
 * fixed: package done work in ios and now physics: const ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) is required for support ios

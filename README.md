@@ -81,7 +81,7 @@
 ### 1. Depend on it
 Add this to your package's `pubspec.yaml` file:
 ```yaml
-rive_pull_to_refresh: ^1.0.3+3
+rive_pull_to_refresh: ^1.0.3+4
 ```
 
 ### 2. Install it
