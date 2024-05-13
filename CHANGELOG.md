@@ -4,7 +4,7 @@
 * update readme
 ## 1.0.3+3
 * suport bottom
-* fixed: package done work in ios and now physics: const ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) is required for support ios
+* fixed: package don't work in ios and now physics: const ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) is required for support ios
 ## 1.0.3+2
 * update link: share rive files to the latest
 ## 1.0.3+1
