@@ -30,7 +30,7 @@ class _MyAppState extends State<Planet> {
   final ScrollController _controller = ScrollController();
   RivePullToRefreshController? _rivePullToRefreshController;
   bool isFloatStyle = false;
-  bool isBottom = true;
+  bool isBottom = false;
   double paddingTop = 50;
   @override
   Widget build(BuildContext context) {
@@ -130,24 +130,36 @@ class _MyAppState extends State<Planet> {
         ),
         controller: _controller,
         onRefresh: () async {},
-        child: ListView.builder(
-          physics: const ClampingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          controller: _controller,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Card(
-              child: SizedBox(
-                height: 200,
-                child: Center(
-                  child: Text(
-                    index.toString(),
-                  ),
+        children: List.generate(
+          10,
+          (index) => Card(
+            child: SizedBox(
+              height: 200,
+              child: Center(
+                child: Text(
+                  index.toString(),
                 ),
               ),
-            );
-          },
+            ),
+          ),
         ),
+        // child: ListView.builder(
+        //   physics: const ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        //   controller: _controller,
+        //   itemCount: 10,
+        //   itemBuilder: (context, index) {
+        //     return Card(
+        //       child: SizedBox(
+        //         height: 200,
+        //         child: Center(
+        //           child: Text(
+        //             index.toString(),
+        //           ),
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // ),
       ),
     ));
   }

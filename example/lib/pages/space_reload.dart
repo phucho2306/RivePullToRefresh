@@ -41,7 +41,7 @@ class _MyAppState extends State<SpaceReload> {
         },
 
         //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.25,
+        kDragContainerExtentPercentage: 0.5,
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 0.9,
 

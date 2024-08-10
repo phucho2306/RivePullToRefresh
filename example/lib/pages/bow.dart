@@ -41,7 +41,8 @@ class _MyAppState extends State<Bow> {
         },
 
         //if the height of rive widget is larger try to upper this value
-        kDragContainerExtentPercentage: 0.25,
+        kDragContainerExtentPercentage: 0.45,
+
         dragSizeFactorLimitMax: 1,
         sizeFactorLimitMin: 1,
         percentActiveBump: 1,

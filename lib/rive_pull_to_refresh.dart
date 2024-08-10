@@ -84,7 +84,8 @@ class RivePullToRefresh extends StatefulWidget {
       {required this.onRefresh,
       required this.onInit,
       required this.riveWidget,
-      required this.child,
+      @Deprecated('Please use children and dont need set physics') this.child,
+      this.children,
       required this.height,
       this.dxOfPointer,
       this.callBackNumber,
@@ -104,7 +105,9 @@ class RivePullToRefresh extends StatefulWidget {
       Key? key})
       : super(key: key);
 
-  final Widget child;
+  final List<Widget>? children;
+
+  final Widget? child;
 
   ///[_side] suport top or bottom rive widget show, default is top
   final Side side;
@@ -175,6 +178,9 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
   @override
   void initState() {
     super.initState();
+    if (widget.child == null && widget.children == null) {
+      throw ("child or children can't be null");
+    }
     _side = widget.side;
 
     _kDragSizeFactorLimitTween =
@@ -197,6 +203,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
         controller: widget.controller,
         positionController: _positionController,
         side: _side);
+    _controller._controller ??= ScrollController();
+
     widget.onInit(_controller);
   }
 
@@ -210,17 +218,18 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
             ? notification.metrics.pixels == 0
             : notification.metrics.pixels ==
                 notification.metrics.maxScrollExtent)) {
-      _shouldStart = true;
+      _shouldStart.value = true;
     }
     if ((widget.side == Side.top
             ? notification.metrics.pixels > 0
             : notification.metrics.pixels <
                 notification.metrics.maxScrollExtent) &&
         _controller._rivePullToRefreshState == null) {
-      _shouldStart = false;
+      _shouldStart.value = false;
     }
     if (Platform.isIOS && notification is OverscrollNotification) {
-      if (!(_controller._rivePullToRefreshState == null && !_shouldStart)) {
+      if (!(_controller._rivePullToRefreshState == null &&
+          !_shouldStart.value)) {
         // action first pull Overscroll to active refresh
         _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
       }
@@ -229,7 +238,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if ((notification is ScrollUpdateNotification ||
             notification is OverscrollNotification) &&
         _controller._rivePullToRefreshState != null &&
-        _shouldStart == true) {
+        _shouldStart.value == true) {
       // calculator position here
       if (notification is ScrollUpdateNotification) {
         if (notification.dragDetails != null) {
@@ -253,6 +262,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           widget.dxOfPointer?.call(
               (notification.dragDetails!.localPosition.dx / width) * 100);
         }
+
         if (_side == Side.top) {
           _controller._dragOffset =
               _controller._dragOffset + notification.overscroll;
@@ -272,7 +282,6 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
             _positionController.value + (_controller._oldValue! - newValue);
 
         _positionController.value = clampDouble(value, 0, 1);
-
         widget.callBackNumber?.call(_positionController.value * 100);
       }
 
@@ -302,7 +311,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     completer = null;
   }
 
-  bool _shouldStart = true;
+  final ValueNotifier<bool> _shouldStart = ValueNotifier<bool>(true);
 
   double _axisAlignment = 1.0;
 
@@ -322,7 +331,8 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
                   : notification.leading))) {
             return false;
           }
-          if (_controller._rivePullToRefreshState != null && _shouldStart) {
+          if (_controller._rivePullToRefreshState != null &&
+              _shouldStart.value) {
             notification.disallowIndicator();
           } else {
             if (_controller._rivePullToRefreshState == null) {
@@ -335,7 +345,15 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
 
           return false;
         },
-        child: widget.child,
+        child: widget.child ??
+            SingleChildScrollView(
+              physics: const ClampingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              controller: _controller._controller,
+              child: Column(
+                children: widget.children!,
+              ),
+            ),
       ),
     );
 

@@ -1,3 +1,5 @@
+## 1.0.4+6
+* child replaced by children, if use children you don't need set physics,
 ## 1.0.3+5
 * update readme
 ## 1.0.3+4
