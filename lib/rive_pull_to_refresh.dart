@@ -84,7 +84,7 @@ class RivePullToRefresh extends StatefulWidget {
       {required this.onRefresh,
       required this.onInit,
       required this.riveWidget,
-      @Deprecated('Please use children and dont need set physics') this.child,
+      this.child,
       this.children,
       required this.height,
       this.dxOfPointer,
@@ -181,6 +181,10 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
     if (widget.child == null && widget.children == null) {
       throw ("child or children can't be null");
     }
+    if (widget.child != null && widget.children != null) {
+      throw ("Don't use both, choose either 'child' or 'children'.");
+    }
+
     _side = widget.side;
 
     _kDragSizeFactorLimitTween =
