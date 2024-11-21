@@ -26,7 +26,7 @@ class RivePullToRefreshController {
   }
   RivePullToRefreshState? _rivePullToRefreshState;
 
-  ///[onRefresh] You can proactively call the refresh function where you want, after resizing or just finishing playing a certain animation
+  ///[onRefresh] You can proactively call the refresh function where you want, after resizing or just finishing playing a certain animation.
   Future<void> Function()? onRefresh;
 
   double? _oldValue;
@@ -39,7 +39,7 @@ class RivePullToRefreshController {
 
   Side? _side;
 
-  ///call [close] when you want hide widget refresh, curve is animation close
+  ///call [close] when you want hide widget refresh, curve is animation close.
   Future close({
     Duration? durationClose = const Duration(
       milliseconds: 200,
@@ -109,58 +109,65 @@ class RivePullToRefresh extends StatefulWidget {
 
   final Widget? child;
 
-  ///[_side] suport top or bottom rive widget show, default is top
+  ///[_side] refresh widget will show in top or bottom, default is top.
   final Side side;
 
   ///[maxSizePaddingChildWhenPullDown] only avaible if RivePullToRefreshStyle is floating.
   final double maxSizePaddingChildWhenPullDown;
   final void Function(RivePullToRefreshController) onInit;
 
-  ///[dragSizeFactorLimitMax]How much the scroll's drag gesture can overshoot the RefreshIndicator's
+  ///[dragSizeFactorLimitMax] How much the scroll's drag gesture can overshoot the RefreshIndicator.
   final double dragSizeFactorLimitMax;
 
   ///[sizeFactorLimitMin] value range 0.0 to [dragSizeFactorLimitMax]
   final double sizeFactorLimitMin;
 
-  ///[kDragContainerExtentPercentage] The over-scroll distance that moves the indicator to its maximum
+  ///[kDragContainerExtentPercentage] The over-scroll distance that moves the indicator to its maximum.
   final double kDragContainerExtentPercentage;
 
   final ScrollController? controller;
 
-  ///[style] style floating and header
-  ///RivePullToRefreshStyle.floating type make refresh widget on top(Stack) or custom padding of child when client pull, RivePullToRefreshStyle.header type pushed the child down
+  ///[style] style floating and header, default is header.
+
+  ///[RivePullToRefreshStyle.floating] type make refresh widget in behind list.
+
+  ///[RivePullToRefreshStyle.header] type make refresh widget move down.
+
   final RivePullToRefreshStyle style;
 
   ///[bump] call when start animation loading
   final Function()? bump;
 
-  ///[callBackNumber] dy percentage of pointer on screen. value return range 0-100 when client scrool  scrool down or up
+  ///[callBackNumber] dy percentage of pointer on screen. value return range 0-100 when client scrool down or up.
   final Function(double)? callBackNumber;
   final Widget riveWidget;
   final Future<void> Function() onRefresh;
 
-  ///[percentActiveBump] 0.0 > percentActiveBump >= 1.0.
-  ///when user stop drang and value of [_positionController] > [percentActiveBump] refresh will call
+  ///[percentActiveBump] 0.0 > percentActiveBump  <= 1.0.
+  ///when user stop drang and value of [_positionController] > [percentActiveBump] refresh will call.
   final double percentActiveBump;
 
-  ///[timeResize] is Duration moving to [sizeFactorLimitMin]
+  ///[timeResize] is Duration moving to [sizeFactorLimitMin].
   final Duration timeResize;
 
-  ///[onMoveToPositionBumpStart] call when start moving to [sizeFactorLimitMin]
+  ///[onMoveToPositionBumpStart] call when start moving to [sizeFactorLimitMin].
   final Function? onMoveToPositionBumpStart;
 
-  ///[curveMoveToPositionBumpStart]An parametric animation easing curve when moving to [sizeFactorLimitMin]
+  ///[curveMoveToPositionBumpStart] An parametric animation easing curve when moving to [sizeFactorLimitMin].
   final Curve? curveMoveToPositionBumpStart;
 
-  ///[height] of refresh widget
+  ///[height] of refresh widget.
   final double height;
 
   ///[openHeaderStyle] default is moveDown.
-  ///[RiveOpenHeaderStyle].moveDown. refresh widget will move on top to down
-  ///[RiveOpenHeaderStyle].behide. refresh widget will open on center header
+
+  ///[RiveOpenHeaderStyle.moveDown] refresh widget will move on top to down.
+
+  ///[RiveOpenHeaderStyle.behide] refresh widget will open on center header.
+
   final RiveOpenHeaderStyle? openHeaderStyle;
 
-  ///[dxOfPointer] dx percentage of pointer on screen. value return range 0-100 when client scrool left or right
+  ///[dxOfPointer] dx percentage of pointer on screen. value return range 0-100 when client scrool left or right.
   final Function(double)? dxOfPointer;
   @override
   State<RivePullToRefresh> createState() => _RivePullToRefreshState();
@@ -256,7 +263,7 @@ class _RivePullToRefreshState extends State<RivePullToRefresh>
           _controller._dragOffset =
               _controller._dragOffset - notification.scrollDelta!;
         }
-        //When the user pulls up a little, it is still a accepted
+        //When the user pulls up a little, refresh will be accepted
         if (_positionController.value <= 0.95) {
           _controller._rivePullToRefreshState = RivePullToRefreshState.cancel;
         }
